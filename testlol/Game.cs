@@ -1,24 +1,25 @@
 ﻿using SFML.Graphics;
 using SFML.Window;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using NetEXT.TimeFunctions;
 using NetEXT.Resources;
+using testlol.World;
+using testlol.States;
 
 namespace testlol
 {
     class Game
     {
-        readonly Time TimePerFrame = Time.FromSeconds(1.0 / 60.0);
-        private static Vector2u size = new Vector2u(1366,768);
-        public static Vector2u Size { get { return size; } }
-
-        RenderWindow window = new RenderWindow(new VideoMode(size.X, size.Y), "testlol",Styles.Default); 
-        MultiResourceCache<string> cache = CacheFactory.CreateMultiResourceCache<string>();
-        Background bg;
-        Player p;
-        Platform pl;
+        private readonly Time _timePerFrame = Time.FromSeconds(1.0 / 60.0);
+        private static Vector2u _size = new Vector2u(1366,768);
+        public static Vector2u Size { get { return _size; } }
+        private readonly RenderWindow _window = new RenderWindow(new VideoMode(_size.X, _size.Y), "testlol",Styles.Default); 
+        private readonly MultiResourceCache<string> _cache = CacheFactory.CreateMultiResourceCache<string>();
+        public MultiResourceCache<string> Cache { get { return _cache; } }
+        private Background bg;
+        private Player p;
+        private Platform pl;
+        private StateMachine _machine = new StateMachine();
 
 
         public Game()
@@ -27,11 +28,11 @@ namespace testlol
             bg = new Background(new Texture("background0.png"));
             pl = new Platform(new Texture("test1.png"), new Vector2f(700, 700));
             
-            window.Closed += (sender, e) => { ((Window)sender).Close(); };
-            window.KeyPressed += window_KeyPressed;
-            window.KeyReleased += window_KeyReleased;
+            _window.Closed += (sender, e) => ((Window)sender).Close();
+            _window.KeyPressed += window_KeyPressed;
+            _window.KeyReleased += window_KeyReleased;
             
-            
+            _machine.Run(StateMachine.BuildState<IntroState>(_machine, _window, true));
         }
 
         void window_KeyReleased(object sender, KeyEventArgs e)
@@ -66,30 +67,49 @@ namespace testlol
 
         public void Run()
         {
+            //Clock timer = new Clock();
+            //Time timeSinceLastUpdate = Time.Zero;
+            //while (_window.IsOpen)
+            //{
+            //    ProcessEvents();
+            //    Time dt = timer.ElapsedTime;
+            //    timer.Restart();
+            //    timeSinceLastUpdate += dt;
+            //    while (timeSinceLastUpdate > _timePerFrame)
+            //    {
+            //        timeSinceLastUpdate -= _timePerFrame;
+            //        ProcessEvents();
+            //        Update(_timePerFrame);
+            //    }
+            //    Render();
+            //}
+
+
             Clock timer = new Clock();
             Time timeSinceLastUpdate = Time.Zero;
-            while (window.IsOpen)
+
+            while (_machine.Running)
             {
-                ProcessEvents();
+                _machine.NextState();
                 Time dt = timer.ElapsedTime;
                 timer.Restart();
                 timeSinceLastUpdate += dt;
-                while (timeSinceLastUpdate > TimePerFrame)
+                while (timeSinceLastUpdate > _timePerFrame)
                 {
-                    timeSinceLastUpdate -= TimePerFrame;
-                    ProcessEvents();
-                    Update(TimePerFrame);
+                    timeSinceLastUpdate -= _timePerFrame;
+                    _machine.Update(_timePerFrame);
+                    _machine.Draw();
                 }
-                Render();
+                
             }
         }
 
         private void ProcessEvents()
         {
-            window.DispatchEvents();
+            _window.DispatchEvents();
             if(Keyboard.IsKeyPressed(Keyboard.Key.Escape))
             {
-                window.Close();
+                _window.Close();
             }
 
         }
@@ -103,12 +123,12 @@ namespace testlol
 
         private void Render()
         {
-            window.Clear();
+            _window.Clear();
             //Console.WriteLine("Velocity:{0}|Force{1}", p.Velocity, p.Force);
-            window.Draw(bg);
-            window.Draw(pl);
-            window.Draw(p);
-        	window.Display();
+            _window.Draw(bg);
+            _window.Draw(pl);
+            _window.Draw(p);
+        	_window.Display();
         }
 
     }

@@ -1,8 +1,7 @@
-﻿using System;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.Window;
 
-namespace testlol
+namespace testlol.World
 {
     abstract class Entity : Drawable
     {
@@ -16,23 +15,19 @@ namespace testlol
         public Vector2f Position { get { return Sprite.Position; } set { Sprite.Position = value; BoundingBox.Position = value; } }
         public Vector2u Size { get; private set; }
         public bool Jumping { get; set; }
-        public Entity(Texture t)
+        protected Entity(Texture t)
         {
             Sprite = new Sprite(t);
             Size = t.Size;
-            BoundingBox = ConstructBoundingBox();
+            BoundingBox = new RectangleShape((Vector2f)Size)
+            {
+                Position = Sprite.Position,
+                FillColor = Color.Transparent,
+                OutlineThickness = 5,
+                OutlineColor = Color.Red
+            };
         }
         public abstract void Draw(SFML.Graphics.RenderTarget target, SFML.Graphics.RenderStates states);
-
-        private RectangleShape ConstructBoundingBox()
-        {
-            RectangleShape r = new RectangleShape((Vector2f)Size);
-            r.Position = Sprite.Position;
-            r.FillColor = Color.Transparent;
-            r.OutlineThickness = 5;
-            r.OutlineColor = Color.Red;
-            return r;
-        }
 
     }
 }

@@ -1,12 +1,11 @@
-﻿using NetEXT.TimeFunctions;
+﻿using System;
+using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
-using System;
 
-
-namespace testlol
+namespace testlol.World
 {
-    class Player : Entity, IMovable
+    class Player : Entity, IUpdatable
     {
 
         

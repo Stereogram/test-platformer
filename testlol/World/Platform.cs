@@ -1,9 +1,7 @@
-﻿using System;
-using NetEXT.TimeFunctions;
+﻿using SFML.Graphics;
 using SFML.Window;
-using SFML.Graphics;
 
-namespace testlol
+namespace testlol.World
 {
     class Platform : Entity
     {

@@ -36,7 +36,7 @@ namespace testlol.States
                 // Cleanup the current state
                 if (_states.Count != 0)
                 {
-                    _states.Pop();
+                    _states.Pop().Switch();
                 }
 
                 // Resume previous state
@@ -59,7 +59,7 @@ namespace testlol.States
                     // Replace the running state
                     if (temp.Replacing)
                     {
-                        _states.Pop();
+                        _states.Pop().Switch();
                     }
                     else // Pause the running state
                     {
@@ -84,6 +84,11 @@ namespace testlol.States
         public void Draw()
         {
             _states.Peek().Draw();
+        }
+
+        public void ProcessEvents()
+        {
+            _states.Peek().ProcessEvents();
         }
 
     }

@@ -9,39 +9,54 @@ namespace testlol.States
      
     class PauseState : GameState
     {
-        Platform p = new Platform(new Texture("image.png"), new Vector2f(300,300) );
-        public PauseState(StateMachine machine, RenderWindow window, bool replace = true)
-            : base(machine, window, replace)
+        Text t = new Text("Pause State", Game.Font);
+        public PauseState(StateMachine machine, RenderWindow window, bool replace = true) : base(machine, window, replace)
         {
-            Console.WriteLine("pause test");
+            Console.WriteLine("pause created");
+            KeyDownEventHandler = WindowOnKeyPressed;
+            Window.KeyPressed += KeyDownEventHandler;
+        }
+
+        private void WindowOnKeyPressed(object sender, KeyEventArgs e)
+        {
+            switch (e.Code)
+            {
+                case Keyboard.Key.W:
+                    Console.WriteLine("pause W");
+                    break;
+                case Keyboard.Key.Space:
+                    Machine.LastState();
+                    break;
+            }
         }
 
         public override void Pause()
         {
-
+            Window.KeyPressed -= KeyDownEventHandler;
         }
 
         public override void Resume()
         {
-
+            Window.KeyPressed += KeyDownEventHandler;
         }
 
         public override void Update(Time dt)
         {
-            base.Update(dt);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
-            {
-                Machine.LastState();
-                //Next = StateMachine.BuildState<PlayState>(Machine, Window, false);
-            }
+            
+        }
+
+        public override void ProcessEvents()
+        {
+            base.ProcessEvents();
+
         }
 
         public override void Draw()
         {
-            Window.Clear();
-            Window.Draw(p);
+            Window.Clear(Color.Transparent);
+            Window.Draw(t);
             Window.Display();
         }
-
+        
     }
 }

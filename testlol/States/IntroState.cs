@@ -14,8 +14,7 @@ namespace testlol.States
         public IntroState(StateMachine machine, RenderWindow window, bool replace = true):base(machine,window,replace)
         {
             Console.WriteLine("intro created");
-            KeyDownEventHandler = WindowOnKeyPressed;
-            Window.KeyPressed += KeyDownEventHandler;
+
         }
 
         private void WindowOnKeyPressed(object sender, KeyEventArgs e)
@@ -35,7 +34,7 @@ namespace testlol.States
 
         public override void Update(Time dt)
         {
-            if ((_time += dt) >= Time.FromSeconds(2.0))
+            if ((_time += dt) >= Time.FromSeconds(0.5))
             {
                 Next = StateMachine.BuildState<MenuState>(Machine, Window, true);
             }

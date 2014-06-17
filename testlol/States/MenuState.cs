@@ -1,42 +1,45 @@
 ﻿using System;
+using NetEXT.Input;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
+using testlol.World;
+using Action = NetEXT.Input.Action;
 
 namespace testlol.States
 {
     class MenuState : GameState
     {
+         
+
+
         Text t = new Text("Menu State", Game.Font);
+
+        private TileMap testMap;
+
         public MenuState(StateMachine machine, RenderWindow window, bool replace = true) : base(machine, window, replace)
         {
+            Map t = Map.LoadMap("test.map");
+            testMap = new TileMap(new Texture("tileset.png"),new Vector2u(32,32) , t );
             Console.WriteLine("menu created");
-            KeyDownEventHandler = WindowOnKeyPressed;
-            Window.KeyPressed += KeyDownEventHandler;
-            
-        }
+            testMap.Scale = new Vector2f(2,2);
 
-        private void WindowOnKeyPressed(object sender, KeyEventArgs e)
-        {
-            switch (e.Code)
-            {
-                case Keyboard.Key.W:
-                    Console.WriteLine("menu W");
-                    break;
-                case Keyboard.Key.Space:
-                    Next = StateMachine.BuildState<PlayState>(Machine, Window, true);
-                    break;
-            }
+            TestMap[Actions.Enter] = new Action(Keyboard.Key.Return, ActionType.PressOnce);
+            TestMap[Actions.Quit] = new Action(Keyboard.Key.Escape, ActionType.ReleaseOnce) | new Action(EventType.Closed);
+            
+            EventSystem.Connect(Actions.Enter, (c) => Next = StateMachine.BuildState<PlayState>(Machine, Window, true));
+            EventSystem.Connect(Actions.Quit, (c) => Machine.Running = false);
+
         }
 
         public override void Pause()
         {
-            Window.KeyPressed -= KeyDownEventHandler;
+            
         }
 
         public override void Resume()
         {
-            Window.KeyPressed += KeyDownEventHandler;
+            
         }
 
         public override void Update(Time dt)
@@ -52,6 +55,7 @@ namespace testlol.States
         public override void Draw()
         {
             Window.Clear();
+            Window.Draw(testMap);
             Window.Draw(t);
             Window.Display();
         }

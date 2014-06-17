@@ -31,6 +31,28 @@ namespace testlol
             return a.X * b.X + a.Y * b.Y;
         }
 
+        public static int X(this int[,] a)
+        {
+            return a.GetLength(1);
+        }
 
+        public static int Y(this int[,] a)
+        {
+            return a.GetLength(0);
+        }
+
+        public static string Print(this int[,] a)
+        {
+            string r = "";
+            for (int i = 0; i < a.Y(); i++)
+            {
+                for (int j = 0; j < a.X(); j++)
+                {
+                    r += a[i, j].ToString();
+                }
+                r += '\n';
+            }
+            return r;
+        }
     }
 }

@@ -18,10 +18,6 @@ namespace testlol.States
         public PlayState(StateMachine machine, RenderWindow window, bool replace = true) : base(machine, window, replace)
         {
             Console.WriteLine("play created");
-            KeyDownEventHandler = WindowOnKeyPressed;
-            KeyUpEventHandler = WindowOnKeyReleased;
-            Window.KeyPressed += KeyDownEventHandler;
-            Window.KeyReleased += KeyUpEventHandler;
 
             _testShape.FillColor = new Color(50,50,50,200);
 
@@ -69,12 +65,10 @@ namespace testlol.States
         public override void Pause()
         {
             Paused = true;
-            Window.KeyPressed -= KeyDownEventHandler;
         }
 
         public override void Resume()
         {
-            Window.KeyPressed += KeyDownEventHandler;
             Paused = false;
             Next = null;
         }

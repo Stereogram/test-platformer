@@ -13,31 +13,17 @@ namespace testlol.States
         public PauseState(StateMachine machine, RenderWindow window, bool replace = true) : base(machine, window, replace)
         {
             Console.WriteLine("pause created");
-            KeyDownEventHandler = WindowOnKeyPressed;
-            Window.KeyPressed += KeyDownEventHandler;
-        }
 
-        private void WindowOnKeyPressed(object sender, KeyEventArgs e)
-        {
-            switch (e.Code)
-            {
-                case Keyboard.Key.W:
-                    Console.WriteLine("pause W");
-                    break;
-                case Keyboard.Key.Space:
-                    Machine.LastState();
-                    break;
-            }
         }
 
         public override void Pause()
         {
-            Window.KeyPressed -= KeyDownEventHandler;
+            
         }
 
         public override void Resume()
         {
-            Window.KeyPressed += KeyDownEventHandler;
+            
         }
 
         public override void Update(Time dt)

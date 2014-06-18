@@ -3,6 +3,9 @@ using SFML.Window;
 
 namespace testlol.World
 {
+    /// <summary>
+    /// Base abstract class for entities contains many properties.
+    /// </summary>
     abstract class Entity : Drawable
     {
         protected RectangleShape BoundingBox { get; private set; }
@@ -15,6 +18,7 @@ namespace testlol.World
         public Vector2f Position { get { return Sprite.Position; } set { Sprite.Position = value; BoundingBox.Position = value; } }
         public Vector2u Size { get; private set; }
         public bool Jumping { get; set; }
+
         protected Entity(Texture t)
         {
             Sprite = new Sprite(t);

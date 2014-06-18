@@ -1,7 +1,5 @@
-﻿using System;
-using NetEXT.TimeFunctions;
+﻿using NetEXT.TimeFunctions;
 using SFML.Graphics;
-using SFML.Window;
 using NetEXT.Input;
 
 namespace testlol.States
@@ -23,9 +21,11 @@ namespace testlol.States
             Left,
             Right,
             Shoot,
-            Jump
+            Jump,
+            Pause,
+            Stop
         };
-        protected readonly ActionMap<Actions> TestMap = new ActionMap<Actions>();
+        protected readonly ActionMap<Actions> EventMap = new ActionMap<Actions>();
         protected readonly EventSystem<Actions, ActionContext<Actions>> EventSystem = ActionMap<Actions>.CreateCallbackSystem();
 
         
@@ -49,8 +49,8 @@ namespace testlol.States
         public abstract void Draw();
         public virtual void ProcessEvents()
         {
-            TestMap.Update(Window);
-            TestMap.InvokeCallbacks(EventSystem, Window);
+            EventMap.Update(Window);
+            EventMap.InvokeCallbacks(EventSystem, Window);
         }
     }
 }

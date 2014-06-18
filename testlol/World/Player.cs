@@ -43,9 +43,9 @@ namespace testlol.World
             Force = new Vector2f(0, 0);
 
 
-            if(Position.Y >= Game.Size.Y-Size.Y)
+            if(Position.Y >= 768-Size.Y)
             {
-                Position = new Vector2f(Position.X, Game.Size.Y-Size.Y);
+                Position = new Vector2f(Position.X, 768-Size.Y);
                 Velocity = new Vector2f(Velocity.X, 0);
                 Jumping = false;
             }
@@ -54,9 +54,9 @@ namespace testlol.World
                 Position = new Vector2f(0, Position.Y);
                 Velocity = new Vector2f(0, Velocity.Y);
             }
-            else if(Position.X >= Game.Size.X - Size.X)
+            else if(Position.X >= 1366 - Size.X)
             {
-                Position = new Vector2f(Game.Size.X - Size.X, Position.Y);
+                Position = new Vector2f(1366 - Size.X, Position.Y);
                 Velocity = new Vector2f(0, Velocity.Y);
             }
 

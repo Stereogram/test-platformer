@@ -17,11 +17,6 @@ namespace testlol.States
 
         }
 
-        private void WindowOnKeyPressed(object sender, KeyEventArgs e)
-        {
-            Next = StateMachine.BuildState<MenuState>(Machine, Window, true);
-        }
-
         public override void Pause()
         {
 

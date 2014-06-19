@@ -8,6 +8,8 @@ namespace testlol.States
 {
     /// <summary>
     /// Activates the current state's Run, Update and ProcessEvents
+    /// 
+    /// From https://github.com/eXpl0it3r/SmallGameEngine
     /// </summary>
     public class StateMachine
     {

@@ -27,6 +27,7 @@ namespace testlol.World
 
         public void Update(Time dt)
         {
+            Sprite.Update(dt);
             Velocity += (1 / Mass * Force) * (float)dt.Seconds;
 
             if(Math.Abs(Velocity.X) < 50 && Direction == 0)

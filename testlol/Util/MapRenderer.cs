@@ -1,9 +1,8 @@
 ﻿using System;
 using SFML.Graphics;
 using SFML.Window;
-using testlol;
 
-namespace SFML.Utils
+namespace testlol.Util
 {
     /// <summary>
     /// Functions that provides color/texture rectangle data from tile map (or other source)

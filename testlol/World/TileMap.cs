@@ -1,7 +1,7 @@
 ﻿using System;
 using SFML.Graphics;
-using SFML.Utils;
 using SFML.Window;
+using testlol.Util;
 
 namespace testlol.World
 {

@@ -12,7 +12,7 @@ namespace testlol.States
     {
         Text t = new Text("Play State", Game.Font);
         private readonly Background _bg = new Background(new Texture("background0.png"));
-        private readonly Player _player = new Player(new Texture("image.png"));
+        private readonly Player _player = new Player(new Texture("megaman.png"));
         private readonly Platform _pl = new Platform(new Texture("test1.png"), new Vector2f(700, 700));
         private readonly RectangleShape _testShape = new RectangleShape((Vector2f)Game.Size);
 

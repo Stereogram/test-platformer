@@ -13,8 +13,6 @@ namespace testlol.States
 
         Text t = new Text("Menu State", Game.Font);
 
-        
-
         public MenuState(StateMachine machine, RenderWindow window, bool replace = true) : base(machine, window, replace)
         {
             Console.WriteLine("menu created");

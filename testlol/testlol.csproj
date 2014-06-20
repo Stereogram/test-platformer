@@ -93,8 +93,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MapRenderer.cs" />
+    <Compile Include="Util\MapRenderer.cs" />
     <Compile Include="States\PauseState.cs" />
+    <Compile Include="World\AnimatedSprite.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\TileMap.cs" />
     <Compile Include="World\Background.cs" />

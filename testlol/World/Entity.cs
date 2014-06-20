@@ -14,14 +14,14 @@ namespace testlol.World
         public int Direction { get; set; }
         public float Mass { get; set; }
         public Vector2f Force { get; set; }
-        protected Sprite Sprite { get; private set; }
+        protected AnimatedSprite Sprite { get; private set; }
         public Vector2f Position { get { return Sprite.Position; } set { Sprite.Position = value; BoundingBox.Position = value; } }
         public Vector2u Size { get; private set; }
         public bool Jumping { get; set; }
 
         protected Entity(Texture t)
         {
-            Sprite = new Sprite(t);
+            Sprite = new AnimatedSprite(t);
             Size = t.Size;
             BoundingBox = new RectangleShape((Vector2f)Size)
             {

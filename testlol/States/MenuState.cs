@@ -3,7 +3,6 @@ using NetEXT.Input;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
-using testlol.World;
 using Action = NetEXT.Input.Action;
 
 namespace testlol.States

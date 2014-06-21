@@ -6,7 +6,7 @@ namespace testlol.World
     class Platform : Entity
     {
 
-        public Platform(Texture t, Vector2f p):base(t)
+        public Platform(Texture t, Vector2f p):base(t, null)
         {
             Position = p;
         }

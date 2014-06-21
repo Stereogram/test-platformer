@@ -12,21 +12,22 @@ namespace testlol.States
     {
         Text t = new Text("Play State", Game.Font);
         private readonly Background _bg = new Background(new Texture("background0.png"));
-        private readonly Player _player = new Player(new Texture("megaman.png"));
+        private readonly Player _player;
         private readonly Platform _pl = new Platform(new Texture("test1.png"), new Vector2f(700, 700));
         private readonly RectangleShape _testShape = new RectangleShape((Vector2f)Game.Size);
 
-        private TileMap TestTileMap;
+        private readonly TileMap _testTileMap;
 
 
         public PlayState(StateMachine machine, RenderWindow window, bool replace = true)
             : base(machine, window, replace)
         {
             Console.WriteLine("play created");
+            _player = new Player(new Texture("megaman.png"), AnimatedSprite.ReadAnimations("ani.txt"));
             _testShape.FillColor = new Color(50, 50, 50, 200);
             _player.Position = new Vector2f(500,500);
             Map t = new Map(_bigmap);
-            TestTileMap = new TileMap(new Texture("tileset.png"), 32, t);
+            _testTileMap = new TileMap(new Texture("tileset.png"), 32, t);
 
             EventMap[Actions.Pause] = new Action(Keyboard.Key.Tab, ActionType.PressOnce);
             EventMap[Actions.Quit] = new Action(Keyboard.Key.Escape, ActionType.ReleaseOnce) | new Action(EventType.Closed);
@@ -44,6 +45,7 @@ namespace testlol.States
             EventSystem.Connect(Actions.Left, c =>
             {
                 _player.Direction = -1;
+                _player.Play("test", true);
                 _player.Force += new Vector2f(-2000, 0);
             });
             EventSystem.Connect(Actions.Right, c =>
@@ -55,12 +57,14 @@ namespace testlol.States
             {
                 if (!_player.Jumping)
                 {
+                    _player.Play("lol", false);
                     _player.Jumping = true;
                     _player.Force += new Vector2f(0, -30000);
                 }
             });
             EventSystem.Connect(Actions.Stop, c =>
             {
+                _player.Play("herp", true);
                 _player.Direction = 0;
             });
         }
@@ -102,7 +106,7 @@ namespace testlol.States
         {
             Window.Clear();
             Window.Draw(_bg);
-            Window.Draw(TestTileMap);
+            Window.Draw(_testTileMap);
             Window.Draw(_pl);
             Window.Draw(_player);
             Window.Draw(t);

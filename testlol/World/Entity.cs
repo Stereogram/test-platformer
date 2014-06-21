@@ -1,4 +1,6 @@
-﻿using SFML.Graphics;
+﻿using System;
+using System.Collections.Generic;
+using SFML.Graphics;
 using SFML.Window;
 
 namespace testlol.World
@@ -19,10 +21,15 @@ namespace testlol.World
         public Vector2u Size { get; private set; }
         public bool Jumping { get; set; }
 
-        protected Entity(Texture t)
+        public void Play(string s, bool b)
         {
-            Sprite = new AnimatedSprite(t);
-            Size = t.Size;
+            Sprite.Play(s,b);
+        }
+
+        protected Entity(Texture t, List<Tuple<string, int>> aList )
+        {
+            Sprite = new AnimatedSprite(t, aList);
+            Size = new Vector2u(64,64);
             BoundingBox = new RectangleShape((Vector2f)Size)
             {
                 Position = Sprite.Position,

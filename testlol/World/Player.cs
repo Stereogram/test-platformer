@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
@@ -9,7 +10,7 @@ namespace testlol.World
     {
 
         
-        public Player(Texture t):base(t)
+        public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
         {
             //DrawBoundingBox = true;
             Position = new Vector2f(200, 200);
@@ -55,9 +56,9 @@ namespace testlol.World
                 Position = new Vector2f(0, Position.Y);
                 Velocity = new Vector2f(0, Velocity.Y);
             }
-            else if(Position.X >= 1366 - Size.X)
+            else if(Position.X >= 1366 + Size.X*3)
             {
-                Position = new Vector2f(1366 - Size.X, Position.Y);
+                Position = new Vector2f(1366 + Size.X*3, Position.Y);
                 Velocity = new Vector2f(0, Velocity.Y);
             }
 

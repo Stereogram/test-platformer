@@ -1,7 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.Window;
 
-namespace testlol.World
+namespace testlol.World.Level
 {
     class Platform : Entity
     {

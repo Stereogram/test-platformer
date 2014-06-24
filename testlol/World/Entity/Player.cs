@@ -4,29 +4,18 @@ using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
 
-namespace testlol.World
+namespace testlol.World.Entity
 {
     class Player : Entity, IUpdatable
     {
-        private const float _gravity = 1;
-        private readonly CallbackTimer test;
+        private const float _gravity = 10;
+        
 
         public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
         {
             //DrawBoundingBox = true;
             Position = new Vector2f(500, 500);
-            Velocity = new Vector2f(250, 200);
-
-            test = new CallbackTimer();
-
-            test.Connect(c =>
-            {
-                Vector2f vel = Velocity;
-                vel.Y = 200;
-                Velocity = vel;
-            });
-            
-            
+            Velocity = new Vector2f(250, 1);
 
         }
         public override void Draw(RenderTarget target, RenderStates states)
@@ -41,11 +30,14 @@ namespace testlol.World
         public void Update(Time dt)
         {
             Sprite.Update(dt);//animation
-            test.Update();
+            
             Vector2f pos = Position;
-
+            Vector2f vel = Velocity;
+            vel.Y += _gravity;
+            Velocity = vel;
             pos.X += Direction * Velocity.X * (float) dt.Seconds;
-            pos.Y += _gravity  * Velocity.Y * (float) dt.Seconds;
+            pos.Y += Velocity.Y * (float) dt.Seconds;
+            //pos.Y += _gravity * (float)dt.Seconds;
 
             Position = pos;
 
@@ -53,7 +45,11 @@ namespace testlol.World
             {
                 Position = new Vector2f(Position.X, 768-Size.Y);
                 Velocity = new Vector2f(Velocity.X, 0);
-                Jumping = false;
+                if (Jumping)
+                {
+                    Velocity = new Vector2f(Velocity.X, 1);
+                    Jumping = false;
+                }
             }
             if(Position.X < 0)
             {
@@ -79,10 +75,8 @@ namespace testlol.World
             {
                 Jumping = true;
                 Vector2f vel = Velocity;
-                vel.Y = -200;
+                vel.Y = -400;
                 Velocity = vel;
-                test.Reset(Time.FromSeconds(1));
-                test.Start();
             }
             
         }

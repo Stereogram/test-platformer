@@ -1,8 +1,7 @@
 ﻿using System;
-using SFML.Graphics;
 using SFML.Window;
 
-namespace testlol
+namespace testlol.Util
 {
     public static class Extensions
     {

@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 
-namespace testlol.World
+namespace testlol.World.Level
 {
     class Background : Drawable
     {

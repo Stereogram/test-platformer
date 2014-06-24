@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using NetEXT.Input;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
@@ -8,9 +9,10 @@ using Action = NetEXT.Input.Action;
 
 namespace testlol.States
 {
-    class PlayState : GameState
+    public class PlayState : GameState
     {
         Text t = new Text("Play State", Game.Font);
+        private Text _posText = new Text("", Game.Font);
         private readonly Background _bg = new Background(new Texture("background0.png"));
         private readonly Player _player;
         private readonly Platform _pl = new Platform(new Texture("test1.png"), new Vector2f(700, 700));
@@ -22,19 +24,22 @@ namespace testlol.States
         public PlayState(StateMachine machine, RenderWindow window, bool replace = true)
             : base(machine, window, replace)
         {
+            _posText.Position = new Vector2f(300,0);
             Console.WriteLine("play created");
             _player = new Player(new Texture("megaman.png"), AnimatedSprite.ReadAnimations("ani.txt"));
             _testShape.FillColor = new Color(50, 50, 50, 200);
-            _player.Position = new Vector2f(500,500);
-            Map t = new Map(_bigmap);
-            _testTileMap = new TileMap(new Texture("tileset.png"), 32, t);
-
+            
+            _testTileMap = new TileMap(new Texture("tileset.png"), 32, Map.LoadMap("Untitled.txt"));
+            
             EventMap[Actions.Pause] = new Action(Keyboard.Key.Tab, ActionType.PressOnce);
             EventMap[Actions.Quit] = new Action(Keyboard.Key.Escape, ActionType.ReleaseOnce) | new Action(EventType.Closed);
-            EventMap[Actions.Left] = new Action(Keyboard.Key.A, ActionType.PressOnce);
-            EventMap[Actions.Right] = new Action(Keyboard.Key.D, ActionType.PressOnce);
-            EventMap[Actions.Jump] = new Action(Keyboard.Key.Space, ActionType.PressOnce);
+            EventMap[Actions.Left] = new Action(Keyboard.Key.A, ActionType.Hold);
+            EventMap[Actions.Right] = new Action(Keyboard.Key.D, ActionType.Hold);
+            EventMap[Actions.Jump] = new Action(Keyboard.Key.Space, ActionType.Hold);
+            EventMap[Actions.Shoot] = new Action(Keyboard.Key.LShift, ActionType.Hold);
             EventMap[Actions.Stop] = new Action(Keyboard.Key.A, ActionType.ReleaseOnce) | new Action(Keyboard.Key.D, ActionType.ReleaseOnce);
+            
+            
 
             EventSystem.Connect(Actions.Pause, c =>
             {
@@ -42,37 +47,18 @@ namespace testlol.States
                 else Resume();
             });
             EventSystem.Connect(Actions.Quit, c => Machine.Running = false);
-            EventSystem.Connect(Actions.Left, c =>
-            {
-                _player.Direction = -1;
-                _player.Play("test", true);
-                _player.Force += new Vector2f(-2000, 0);
-            });
-            EventSystem.Connect(Actions.Right, c =>
-            {
-                _player.Direction = 1;
-                _player.Force += new Vector2f(2000, 0);
-            });
-            EventSystem.Connect(Actions.Jump, c =>
-            {
-                if (!_player.Jumping)
-                {
-                    _player.Play("lol", false);
-                    _player.Jumping = true;
-                    _player.Force += new Vector2f(0, -30000);
-                }
-            });
-            EventSystem.Connect(Actions.Stop, c =>
-            {
-                _player.Play("herp", true);
-                _player.Direction = 0;
-            });
+            EventSystem.Connect(Actions.Left, c => _player.Move(-1));
+            EventSystem.Connect(Actions.Right, c => _player.Move(1));
+            EventSystem.Connect(Actions.Jump, c => _player.Jump());
+            EventSystem.Connect(Actions.Stop, c => _player.Move(0));
+            EventSystem.Connect(Actions.Shoot, c => _testTileMap[(int)(_player.Position.X/32),(int)(_player.Position.Y/32)] = 1);
         }
 
         public override void Pause()
         {
             Paused = true;
-            _testShape.Position = _player.Position - (Vector2f)(Game.Size/2);
+            _testShape.Position = Window.DefaultView.Center - (Vector2f)(Game.Size/2);
+            
         }
 
         public override void Resume()
@@ -84,14 +70,15 @@ namespace testlol.States
         public override void Update(Time dt)
         {
             if (Paused) return;
-            if (_player.Position.Y <= 768 - _player.Size.Y)
-                _player.Force += new Vector2f(0, 1000);
-            else
-                _player.Jumping = false;
+
             _player.Update(dt);
             View v = Window.GetView();
-            v.Center = _player.Position;
+            if (_player.Position.X > (Game.Size.X / 2.0))
+                v.Center = _player.Position;
             Window.SetView(v);
+
+            _posText.DisplayedString = _player.Position.ToString();
+            _posText.Position = new Vector2f(300,_player.Position.Y-(Game.Size.Y/2));
 
         }
 
@@ -99,7 +86,7 @@ namespace testlol.States
         {
             base.ProcessEvents();
             if(Paused)
-                _player.Force = new Vector2f(0,0);
+                _player.Velocity = new Vector2f(0,0);
         }
 
         public override void Draw()
@@ -109,7 +96,11 @@ namespace testlol.States
             Window.Draw(_testTileMap);
             Window.Draw(_pl);
             Window.Draw(_player);
+            //View v = Window.GetView();
+            //Window.SetView(Window.DefaultView);
             Window.Draw(t);
+            Window.Draw(_posText);
+            //Window.SetView(v);
             if(Paused)
                 Window.Draw(_testShape);
             Window.Display();

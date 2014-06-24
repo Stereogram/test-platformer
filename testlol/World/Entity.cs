@@ -14,10 +14,8 @@ namespace testlol.World
         public bool DrawBoundingBox { get; set; }
         public Vector2f Velocity { get; set; }
         public int Direction { get; set; }
-        public float Mass { get; set; }
-        public Vector2f Force { get; set; }
         protected AnimatedSprite Sprite { get; private set; }
-        public Vector2f Position { get { return Sprite.Position; } set { Sprite.Position = value; BoundingBox.Position = value; } }
+        public Vector2f Position { get { return Sprite.Position; } set { Sprite.Position = value; BoundingBox.Position = new Vector2f(value.X+16,value.Y); } }
         public Vector2u Size { get; private set; }
         public bool Jumping { get; set; }
 
@@ -30,9 +28,9 @@ namespace testlol.World
         {
             Sprite = new AnimatedSprite(t, aList);
             Size = new Vector2u(64,64);
-            BoundingBox = new RectangleShape((Vector2f)Size)
+            BoundingBox = new RectangleShape(new Vector2f(32,64))
             {
-                Position = Sprite.Position,
+                Position = new Vector2f(Sprite.Position.X+16,Sprite.Position.Y),
                 FillColor = Color.Transparent,
                 OutlineThickness = 5,
                 OutlineColor = Color.Red

@@ -46,8 +46,8 @@ namespace testlol.World
                 FrameAnimation<Sprite> temp = new FrameAnimation<Sprite>();
                 for (int i = 0; i < t.Item2; i++, total++)
                 {
-                    int tu = (int)((total) % (_tSize.X / _size)) * _size;
-                    int tv = (int)((total) / (_tSize.X / _size)) * _size;
+                    int tu = (int)(total % (_tSize.X / _size)) * _size;
+                    int tv = (int)(total / (_tSize.X / _size)) * _size;
                     temp.AddFrame(1, new IntRect(tu, tv, _size, _size));
                 }
                 _animator.AddAnimation(t.Item1,temp,Time.FromSeconds(1));

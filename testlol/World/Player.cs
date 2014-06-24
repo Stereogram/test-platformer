@@ -8,14 +8,26 @@ namespace testlol.World
 {
     class Player : Entity, IUpdatable
     {
+        private const float _gravity = 1;
+        private readonly CallbackTimer test;
 
-        
         public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
         {
             //DrawBoundingBox = true;
-            Position = new Vector2f(200, 200);
-            Mass = 1;
+            Position = new Vector2f(500, 500);
+            Velocity = new Vector2f(250, 200);
+
+            test = new CallbackTimer();
+
+            test.Connect(c =>
+            {
+                Vector2f vel = Velocity;
+                vel.Y = 200;
+                Velocity = vel;
+            });
             
+            
+
         }
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -28,22 +40,14 @@ namespace testlol.World
 
         public void Update(Time dt)
         {
-            Sprite.Update(dt);
-            Velocity += (1 / Mass * Force) * (float)dt.Seconds;
+            Sprite.Update(dt);//animation
+            test.Update();
+            Vector2f pos = Position;
 
-            if(Math.Abs(Velocity.X) < 50 && Direction == 0)
-            {
-                Velocity = new Vector2f(0, Velocity.Y);
-            }
+            pos.X += Direction * Velocity.X * (float) dt.Seconds;
+            pos.Y += _gravity  * Velocity.Y * (float) dt.Seconds;
 
-            if (Math.Abs(Velocity.X) >= 600 && Direction != 0)
-            {
-                Velocity = new Vector2f(Direction*600, Velocity.Y);
-            }
-
-            Position += Velocity * (float)dt.Seconds;
-            Force = new Vector2f(0, 0);
-
+            Position = pos;
 
             if(Position.Y >= 768-Size.Y)
             {
@@ -54,14 +58,38 @@ namespace testlol.World
             if(Position.X < 0)
             {
                 Position = new Vector2f(0, Position.Y);
-                Velocity = new Vector2f(0, Velocity.Y);
+                //Velocity = new Vector2f(0, Velocity.Y);
             }
             else if(Position.X >= 1366 + Size.X*3)
             {
                 Position = new Vector2f(1366 + Size.X*3, Position.Y);
-                Velocity = new Vector2f(0, Velocity.Y);
+                //Velocity = new Vector2f(0, Velocity.Y);
             }
 
+        }
+
+        public void Move(int dir)
+        {
+            Direction = dir;
+        }
+
+        public void Jump()
+        {
+            if (!Jumping)
+            {
+                Jumping = true;
+                Vector2f vel = Velocity;
+                vel.Y = -200;
+                Velocity = vel;
+                test.Reset(Time.FromSeconds(1));
+                test.Start();
+            }
+            
+        }
+
+        public void Shoot()
+        {
+            
         }
 
     }

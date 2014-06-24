@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SFML.Window;
+using testlol.Util;
 
-namespace testlol.World
+namespace testlol.World.Level
 {
     public struct Map
     {

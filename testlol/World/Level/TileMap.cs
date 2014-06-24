@@ -1,9 +1,7 @@
-﻿using System;
-using SFML.Graphics;
-using SFML.Window;
+﻿using SFML.Graphics;
 using testlol.Util;
 
-namespace testlol.World
+namespace testlol.World.Level
 {
     public class TileMap : Transformable, Drawable
     {

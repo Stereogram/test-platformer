@@ -1,6 +1,6 @@
 ﻿using NetEXT.TimeFunctions;
 
-namespace testlol.World
+namespace testlol.World.Entity
 {
     interface IUpdatable
     {

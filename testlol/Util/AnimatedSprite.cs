@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using NetEXT.Animation;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
+using testlol.World.Entity;
 
-namespace testlol.World
+namespace testlol.Util
 {
     public class AnimatedSprite: IUpdatable, Drawable
     {

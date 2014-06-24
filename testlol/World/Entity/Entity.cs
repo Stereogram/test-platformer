@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.Window;
+using testlol.Util;
 
-namespace testlol.World
+namespace testlol.World.Entity
 {
     /// <summary>
     /// Base abstract class for entities contains many properties.

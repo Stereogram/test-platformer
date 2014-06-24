@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using SFML.Window;
 
 namespace testlol.World
@@ -43,41 +45,33 @@ namespace testlol.World
 
         public static Map LoadMap(string s)
         {
-            Map m = null;
-            using (BinaryReader br = new BinaryReader(new FileStream(s, FileMode.Open)))
+            List<List<int>> list = new List<List<int>>();
+
+            foreach (string line in File.ReadAllLines(s))
             {
-                int x = br.ReadInt32();
-                int y = br.ReadInt32();
-                m = new Map(x,y);
-                for (int i = 0; i < y; i++)
+                List<int> temp = new List<int>();
+                temp.AddRange(from c in line where char.IsDigit(c) select int.Parse(c.ToString()));
+                list.Add(temp);
+            }
+
+            int x = list[0].Count;
+            int y = list.Count;
+            int[,] r = new int[y, x];
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
                 {
-                    for (int j = 0; j < x; j++)
-                    {
-                        m[i, j] = br.ReadInt32();
-                    }
+                    r[i, j] = list[i][j];
                 }
             }
-            return m;
+            return r;
         }
 
         public void WriteMap(string s)
         {
-            using (BinaryWriter bw = new BinaryWriter(new FileStream(s, FileMode.Create)))
-            {
-                bw.Write(X);
-                bw.Write(Y);
-                
-                for (int i = 0; i < Y; i++)
-                {
-                    for (int j = 0; j < X; j++)
-                    {
-                        bw.Write(_map[i,j]);
-                    }
-                }
-                bw.Flush();
-            }
-            
+            File.WriteAllText(s,_map.Print());
         }
+
 
     }
 }

@@ -68,6 +68,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\..\..\..\..\..\GitHub\zip\zip-v1.9\Debug\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="NetEXT, Version=1.8.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\GitHub\netext\NetEXT\bin\Debug\NetEXT.dll</HintPath>
@@ -93,6 +96,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Util\Collision.cs" />
+    <Compile Include="Util\StuffLoader.cs" />
     <Compile Include="Util\MapRenderer.cs" />
     <Compile Include="States\PauseState.cs" />
     <Compile Include="World\AnimatedSprite.cs" />

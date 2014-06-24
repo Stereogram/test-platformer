@@ -48,7 +48,7 @@ namespace testlol
             {
                 for (int j = 0; j < a.X(); j++)
                 {
-                    r += a[i, j].ToString();
+                    r += a[i, j] + ",";
                 }
                 r += '\n';
             }

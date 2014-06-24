@@ -3,6 +3,7 @@ using NetEXT.Input;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
+using testlol.Util;
 using Action = NetEXT.Input.Action;
 
 namespace testlol.States
@@ -21,7 +22,7 @@ namespace testlol.States
             
             EventSystem.Connect(Actions.Enter, c => Next = StateMachine.BuildState<PlayState>(Machine, Window, true));
             EventSystem.Connect(Actions.Quit, c => Machine.Running = false);
-
+            StuffLoader tLoader = new StuffLoader();
         }
 
         public override void Pause()

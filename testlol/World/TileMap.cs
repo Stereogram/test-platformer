@@ -10,7 +10,7 @@ namespace testlol.World
         //private readonly VertexArray _vertexArray = new VertexArray(PrimitiveType.Quads);
         private readonly Texture _texture;
         private readonly int _tileSize;
-        private readonly Map _map;
+        private Map _map;
         private readonly MapRenderer _mapRenderer;
 
         public TileMap(Texture texture, int tileSize, Map map)
@@ -22,8 +22,20 @@ namespace testlol.World
             //Construct();
         }
 
+        public int this[int a, int b]
+        {
+            get { return _map[a, b]; }
+            set { _map[a, b] = value; }
+        }
+
         private void Provider(int x, int y, out Color color, out IntRect rec)
         {
+            if (x >= _map.X || y >= _map.Y)
+            {
+                color = Color.Transparent;
+                rec = new IntRect(0,0,1,1);
+                return;
+            }
             int tu = _map[y,x] % ((int)(_texture.Size.X / _tileSize));
             int tv = _map[y,x] / ((int)(_texture.Size.X / _tileSize));
             color = Color.White;

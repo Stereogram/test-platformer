@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using NetEXT.Input;
 using NetEXT.TimeFunctions;
@@ -6,6 +7,7 @@ using SFML.Graphics;
 using SFML.Window;
 using testlol.Util;
 using testlol.World;
+using testlol.World.Entity;
 using testlol.World.Level;
 using Action = NetEXT.Input.Action;
 
@@ -15,24 +17,32 @@ namespace testlol.States
     {
         Text t = new Text("Play State", Game.Font);
         private Text _posText = new Text("", Game.Font);
+
+        private readonly List<Entity> _entities = new List<Entity>(); 
+
         private readonly Background _bg = new Background(new Texture(@"assets/maps/bg1.png"));
+
         private readonly Player _player;
         
         private readonly RectangleShape _testShape = new RectangleShape((Vector2f)Game.Size);
 
         private readonly TileMap _testTileMap;
-
+        private Collision testCollision;
 
         public PlayState(StateMachine machine, RenderWindow window, bool replace = true)
             : base(machine, window, replace)
         {
             _posText.Position = new Vector2f(300,0);
+            _posText.CharacterSize = 10;
             Console.WriteLine("play created");
             _player = new Player(new Texture(@"assets/player/megaman.png"), AnimatedSprite.ReadAnimations(@"assets/player/megaman.txt"));
+            _entities.Add(_player);
             _testShape.FillColor = new Color(50, 50, 50, 200);
-
-            _testTileMap = new TileMap(new Texture(@"assets/maps/tileset1.png"), 32, Map.LoadMap(@"assets/maps/1.txt"));
             
+            _testTileMap = new TileMap(new Texture(@"assets/maps/tileset1.png"), 32, Map.LoadMap(@"assets/maps/2.txt"));
+            testCollision = new Collision(_testTileMap, _entities);
+
+
             EventMap[Actions.Pause] = new Action(Keyboard.Key.Tab, ActionType.PressOnce);
             EventMap[Actions.Quit] = new Action(Keyboard.Key.Escape, ActionType.ReleaseOnce) | new Action(EventType.Closed);
             EventMap[Actions.Left] = new Action(Keyboard.Key.A, ActionType.Hold);
@@ -53,7 +63,7 @@ namespace testlol.States
             EventSystem.Connect(Actions.Right, c => _player.Move(1));
             EventSystem.Connect(Actions.Jump, c => _player.Jump());
             EventSystem.Connect(Actions.Stop, c => _player.Move(0));
-            EventSystem.Connect(Actions.Shoot, c => _testTileMap[(int)(_player.Position.X/32),(int)(_player.Position.Y/32)] = 1);
+            EventSystem.Connect(Actions.Shoot, c => _testTileMap[_player.Location.Y,_player.Location.X] = 4);
         }
 
         public override void Pause()
@@ -74,12 +84,13 @@ namespace testlol.States
             if (Paused) return;
 
             _player.Update(dt);
+            testCollision.Update(dt);
             View v = Window.GetView();
-            if (_player.Position.X > (Game.Size.X / 2.0))
-                v.Center = _player.Position;
+            v.Center = _player.Position.X < (Game.Size.X / 2.0) ? new Vector2f(Game.Size.X / 2.0f,_player.Position.Y) : _player.Position;
+            
             Window.SetView(v);
 
-            _posText.DisplayedString = _player.Velocity.ToString();
+            _posText.DisplayedString = _player.HitBox + " | " + _player.PrevHitBox;
             _posText.Position = new Vector2f(300,_player.Position.Y-(Game.Size.Y/2));
 
         }

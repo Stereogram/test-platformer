@@ -3,7 +3,7 @@ using SFML.Window;
 
 namespace testlol.World.Level
 {
-    class Platform : Entity
+    class Platform : Entity.Entity
     {
 
         public Platform(Texture t, Vector2f p):base(t, null)

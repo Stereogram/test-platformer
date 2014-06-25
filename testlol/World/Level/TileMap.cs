@@ -1,15 +1,22 @@
-﻿using SFML.Graphics;
+﻿using System;
+using System.Collections.Generic;
+using SFML.Graphics;
+using SFML.Window;
 using testlol.Util;
 
 namespace testlol.World.Level
 {
-    public class TileMap : Transformable, Drawable
+    public class TileMap : Drawable
     {
         //private readonly VertexArray _vertexArray = new VertexArray(PrimitiveType.Quads);
         private readonly Texture _texture;
         private readonly int _tileSize;
         private Map _map;
         private readonly MapRenderer _mapRenderer;
+        private Vector2f _topLeft;
+
+        private readonly List<FloatRect> _collidables = new List<FloatRect>();
+        public List<FloatRect> Collidables { get { return _collidables; } } 
 
         public TileMap(Texture texture, int tileSize, Map map)
         {
@@ -23,7 +30,7 @@ namespace testlol.World.Level
         public int this[int a, int b]
         {
             get { return _map[a, b]; }
-            set { _map[a, b] = value; }
+            set { _map[a, b] = value; _mapRenderer.RefreshScreen(); }
         }
 
         private void Provider(int x, int y, out Color color, out IntRect rec)
@@ -73,9 +80,26 @@ namespace testlol.World.Level
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            states.Transform = Transform;
             states.Texture = _texture;
             target.Draw(_mapRenderer, states);
+            View view = target.GetView();
+            Vector2f t = view.Center - (Vector2f) (Game.Size/2);
+            if ((Vector2i)_topLeft/32 != (Vector2i)t/32)
+            {
+                _topLeft = t;
+                _collidables.Clear();
+                for (int i = (int) (_topLeft.Y/32); i < (int) (_topLeft.Y + Game.Size.Y)/32; i++)
+                {
+                    for (int j = (int)(_topLeft.X / 32); j < (int)(_topLeft.X + Game.Size.X) / 32; j++)
+                    {
+                        if (_map[i, j] != 0)
+                        {
+                            _collidables.Add(new FloatRect(j*32,i*32,32,32));
+                        }
+                    }
+                }
+                //Console.WriteLine(_collidables.Count);
+            }
         }
     }
 }

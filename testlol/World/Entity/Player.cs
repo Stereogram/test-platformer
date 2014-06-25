@@ -13,7 +13,7 @@ namespace testlol.World.Entity
 
         public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
         {
-            //DrawBoundingBox = true;
+            DrawBoundingBox = true;
             Position = new Vector2f(500, 500);
             Velocity = new Vector2f(250, 1);
 
@@ -30,7 +30,9 @@ namespace testlol.World.Entity
         public void Update(Time dt)
         {
             Sprite.Update(dt);//animation
-            
+
+            PrevHitBox = HitBox;
+
             Vector2f pos = Position;
             Vector2f vel = Velocity;
             vel.Y += _gravity;
@@ -61,7 +63,7 @@ namespace testlol.World.Entity
                 Position = new Vector2f(1366 + Size.X*3, Position.Y);
                 //Velocity = new Vector2f(0, Velocity.Y);
             }
-
+            HitBox = new FloatRect(Position.X + 16, Position.Y, 32, 64);
         }
 
         public void Move(int dir)

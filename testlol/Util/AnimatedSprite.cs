@@ -27,7 +27,7 @@ namespace testlol.Util
         public AnimatedSprite(Texture texture, List<Tuple<string,int>> aList)
         {
             _sprite = new Sprite(texture);
-
+            
             if (aList == null) return;
             _animationList = aList;
             
@@ -70,6 +70,7 @@ namespace testlol.Util
         {
             if(_animatedObject != null)
                 _animator.Update(dt);
+
         }
 
         public void WriteAnimations(string s)

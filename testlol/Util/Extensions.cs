@@ -1,4 +1,5 @@
 ﻿using System;
+using SFML.Graphics;
 using SFML.Window;
 
 namespace testlol.Util
@@ -53,5 +54,17 @@ namespace testlol.Util
             }
             return r;
         }
+
+        public static float Bottom(this FloatRect a)
+        {
+            return a.Height + a.Top;
+        }
+
+        public static float Right(this FloatRect a)
+        {
+            return a.Width + a.Left;
+        }
+
+
     }
 }

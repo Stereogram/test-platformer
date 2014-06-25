@@ -40,7 +40,6 @@ namespace testlol.Util
         /// <param name="texture">Spritesheet</param>
         /// <param name="provider">Accesor to tilemap data</param>
         /// <param name="tileSize">Size of one tile</param>
-        /// <param name="layers">Numbers of layers</param>
         public MapRenderer(Texture texture, TileProvider provider, float tileSize = 32)
         {
             _provider = provider;

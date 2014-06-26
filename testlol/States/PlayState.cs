@@ -33,7 +33,7 @@ namespace testlol.States
             : base(machine, window, replace)
         {
             _posText.Position = new Vector2f(300,0);
-            _posText.CharacterSize = 10;
+            //_posText.CharacterSize = 10;
             Console.WriteLine("play created");
             _player = new Player(new Texture(@"assets/player/megaman.png"), AnimatedSprite.ReadAnimations(@"assets/player/megaman.txt"));
             _entities.Add(_player);
@@ -90,7 +90,7 @@ namespace testlol.States
             
             Window.SetView(v);
 
-            _posText.DisplayedString = _player.HitBox + " | " + _player.PrevHitBox;
+            _posText.DisplayedString = _player.Velocity.ToString();
             _posText.Position = new Vector2f(300,_player.Position.Y-(Game.Size.Y/2));
 
         }

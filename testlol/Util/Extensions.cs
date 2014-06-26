@@ -65,6 +65,11 @@ namespace testlol.Util
             return a.Width + a.Left;
         }
 
+        public static RectangleShape ToRectangleShape(this FloatRect a)
+        {
+            return new RectangleShape(new Vector2f(a.Width, a.Height)) {Position = new Vector2f(a.Left, a.Top)};
+        }
+
 
     }
 }

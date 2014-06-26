@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
+using testlol.Util;
 
 namespace testlol.World.Entity
 {
@@ -13,7 +14,7 @@ namespace testlol.World.Entity
 
         public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
         {
-            DrawBoundingBox = true;
+            //DrawBoundingBox = true;
             Position = new Vector2f(500, 500);
             Velocity = new Vector2f(250, 1);
 
@@ -25,6 +26,9 @@ namespace testlol.World.Entity
             {
                 target.Draw(BoundingBox, states);
             }
+            RectangleShape test = HitBox.ToRectangleShape();
+            test.FillColor = new Color(255,100,100,150);
+            target.Draw(test);
         }
 
         public void Update(Time dt)
@@ -32,11 +36,14 @@ namespace testlol.World.Entity
             Sprite.Update(dt);//animation
 
             PrevHitBox = HitBox;
+            
 
             Vector2f pos = Position;
             Vector2f vel = Velocity;
+
             vel.Y += _gravity;
             Velocity = vel;
+
             pos.X += Direction * Velocity.X * (float) dt.Seconds;
             pos.Y += Velocity.Y * (float) dt.Seconds;
             //pos.Y += _gravity * (float)dt.Seconds;

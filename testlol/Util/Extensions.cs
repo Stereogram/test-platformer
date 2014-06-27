@@ -55,16 +55,6 @@ namespace testlol.Util
             return r;
         }
 
-        public static float Bottom(this FloatRect a)
-        {
-            return a.Height + a.Top;
-        }
-
-        public static float Right(this FloatRect a)
-        {
-            return a.Width + a.Left;
-        }
-
         public static RectangleShape ToRectangleShape(this FloatRect a)
         {
             return new RectangleShape(new Vector2f(a.Width, a.Height)) {Position = new Vector2f(a.Left, a.Top)};

@@ -37,39 +37,17 @@ namespace testlol.Util
                         pos.X += x;
                         pos.Y += y;
                         entity.Position = pos;
-                        if (y > 0) entity.Velocity = new Vector2f(entity.Velocity.X, 1);
-                        if (entity.Jumping) entity.Jumping = false;
+                        //Console.WriteLine("x:{0},y:{1}",x,y);
+                        if (y < 0 && x == 0)
+                        {
+                            entity.Velocity = new Vector2f(entity.Velocity.X, 0);
+                            entity.Jumping = false;
+                        }
+                        if (y > 0)
+                        {
+                            entity.Velocity = new Vector2f(entity.Velocity.X, 0);
+                        }
                     }
-                    //if (rect.Intersects(entity.HitBox))
-                    //{
-
-                    //    Vector2f pos = entity.Position;
-                    //    pos += 
-
-
-                    //    //if (entity.HitBox.Right() >= rect.Left && entity.Velocity.X >= 0)
-                    //    //{
-                    //    //    pos.X = rect.Left - 32;
-                    //    //    Console.WriteLine("Right");
-                    //    //}
-                    //    //else if (entity.HitBox.Left <= rect.Right() && entity.Velocity.X <= 0)
-                    //    //{
-                    //    //    pos.X = rect.Right();
-                    //    //    Console.WriteLine("Left");
-                    //    //}
-                    //    //if (entity.HitBox.Bottom() >= rect.Top && entity.Velocity.Y <= 0)
-                    //    //{
-                    //    //    pos.Y = rect.Top - 64;
-                    //    //    Console.WriteLine("Bottom");
-                    //    //}
-                    //    //else if (entity.HitBox.Top <= rect.Bottom()&& entity.Velocity.Y >= 0)
-                    //    //{
-                    //    //    pos.Y = rect.Bottom();
-                    //    //    Console.WriteLine("Top");
-                    //    //}
-
-                    //    entity.Position = pos;
-                    //}
                 }
             }
         }

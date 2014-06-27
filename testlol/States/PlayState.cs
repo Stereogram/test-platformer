@@ -33,7 +33,7 @@ namespace testlol.States
             : base(machine, window, replace)
         {
             _posText.Position = new Vector2f(300,0);
-            //_posText.CharacterSize = 10;
+            _posText.CharacterSize = 16;
             Console.WriteLine("play created");
             _player = new Player(new Texture(@"assets/player/megaman.png"), AnimatedSprite.ReadAnimations(@"assets/player/megaman.txt"));
             _entities.Add(_player);
@@ -63,7 +63,8 @@ namespace testlol.States
             EventSystem.Connect(Actions.Right, c => _player.Move(1));
             EventSystem.Connect(Actions.Jump, c => _player.Jump());
             EventSystem.Connect(Actions.Stop, c => _player.Move(0));
-            EventSystem.Connect(Actions.Shoot, c => _testTileMap[_player.Location.Y,_player.Location.X] = 4);
+            //EventSystem.Connect(Actions.Shoot, c => _testTileMap[_player.Location.Y,_player.Location.X] = 4);
+            EventSystem.Connect(Actions.Shoot, c => _player.Shoot());
         }
 
         public override void Pause()
@@ -90,8 +91,8 @@ namespace testlol.States
             
             Window.SetView(v);
 
-            _posText.DisplayedString = _player.Velocity.ToString();
-            _posText.Position = new Vector2f(300,_player.Position.Y-(Game.Size.Y/2));
+            _posText.DisplayedString = _player.HitBox.ToString() + '\n' + _player.Velocity.ToString();
+            _posText.Position = new Vector2f(_player.Position.X - (Game.Size.X / 2.0f), _player.Position.Y - (Game.Size.Y / 2.0f));
 
         }
 

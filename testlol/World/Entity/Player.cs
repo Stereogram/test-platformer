@@ -4,19 +4,20 @@ using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
 using testlol.Util;
+using testlol.World.Entity.Projectile;
 
 namespace testlol.World.Entity
 {
     class Player : Entity, IUpdatable
     {
         private const float _gravity = 10;
-        
+        Projectiles p = new Projectiles();
 
         public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
         {
             //DrawBoundingBox = true;
             Position = new Vector2f(500, 500);
-            Velocity = new Vector2f(250, 1);
+            Velocity = new Vector2f(250, 0);
 
         }
         public override void Draw(RenderTarget target, RenderStates states)
@@ -29,13 +30,14 @@ namespace testlol.World.Entity
             RectangleShape test = HitBox.ToRectangleShape();
             test.FillColor = new Color(255,100,100,150);
             target.Draw(test);
+            target.Draw(p);
         }
 
         public void Update(Time dt)
         {
             Sprite.Update(dt);//animation
 
-            PrevHitBox = HitBox;
+            p.Update(dt);
             
 
             Vector2f pos = Position;
@@ -56,7 +58,7 @@ namespace testlol.World.Entity
                 Velocity = new Vector2f(Velocity.X, 0);
                 if (Jumping)
                 {
-                    Velocity = new Vector2f(Velocity.X, 1);
+                    Velocity = new Vector2f(Velocity.X, 0);
                     Jumping = false;
                 }
             }
@@ -70,7 +72,7 @@ namespace testlol.World.Entity
                 Position = new Vector2f(1366 + Size.X*3, Position.Y);
                 //Velocity = new Vector2f(0, Velocity.Y);
             }
-            HitBox = new FloatRect(Position.X + 16, Position.Y, 32, 64);
+            
         }
 
         public void Move(int dir)
@@ -92,7 +94,7 @@ namespace testlol.World.Entity
 
         public void Shoot()
         {
-            
+            p.Shoot<Bullet>(Position);
         }
 
     }

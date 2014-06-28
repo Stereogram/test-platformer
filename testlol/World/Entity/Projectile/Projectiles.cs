@@ -9,10 +9,10 @@ namespace testlol.World.Entity.Projectile
 {
     public class Projectiles : Drawable, IUpdatable
     {
-        private readonly List<Projectile> _projectiles = new List<Projectile>(); 
+        public readonly List<Projectile> ProjectileList = new List<Projectile>(); 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            foreach (Projectile projectile in _projectiles)
+            foreach (Projectile projectile in ProjectileList)
             {
                 target.Draw((Drawable)projectile);
             }
@@ -20,16 +20,16 @@ namespace testlol.World.Entity.Projectile
 
         public void Update(Time dt)
         {
-            foreach (IUpdatable projectile in _projectiles.Cast<IUpdatable>())
+            foreach (IUpdatable projectile in ProjectileList.Cast<IUpdatable>())
             {
                 projectile.Update(dt);
             }
-            _projectiles.RemoveAll(x => x.LifeTime >= x.MaxTime);
+            ProjectileList.RemoveAll(x => x.LifeTime >= x.MaxTime);
         }
 
-        public void Shoot<T>(Vector2f p) where T : class
+        public void Shoot<T>(Vector2f p, Sprite sprite) where T : class
         {
-            _projectiles.Add((Projectile)Activator.CreateInstance(typeof(T), new object[] { p }) );
+            ProjectileList.Add((Projectile)Activator.CreateInstance(typeof(T), new object[] { p, sprite }) );
         }
 
     }

@@ -6,16 +6,13 @@ namespace testlol.World.Entity.Projectile
 {
     public class Bullet : Projectile, Drawable, IUpdatable
     {
-        
-        Vector2f Position { get { return _sprite.Position; } set { _sprite.Position = value; } }
-
-        public Bullet(Vector2f p)
+        public Bullet(Vector2f p, Sprite sprite)
         {
-            _velocity = 1000;
-            MaxTime = Time.FromSeconds(2.0f);
-            Position = p;
+            _sprite = sprite;
+            _velocity = 500;
+            MaxTime = Time.FromSeconds(1.5f);
+            Position = new Vector2f(p.X+32,p.Y+16);
             LifeTime = Time.Zero;
-            _sprite = new Sprite(new Texture(@"assets\player\bullet.png"));
         }
 
         public void Update(Time dt)

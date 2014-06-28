@@ -10,9 +10,11 @@ namespace testlol.World.Entity
 {
     class Player : Entity, IUpdatable
     {
+        private readonly Time _shootMax = Time.FromSeconds(0.5f);
+        private Time _shootTime = Time.Zero;
         private const float _gravity = 10;
-        Projectiles p = new Projectiles();
-
+        public readonly Projectiles Projectiles = new Projectiles();
+        private readonly Sprite _bulletSprite = new Sprite(new Texture(@"assets/player/bullet.png"));
         public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
         {
             //DrawBoundingBox = true;
@@ -30,15 +32,15 @@ namespace testlol.World.Entity
             RectangleShape test = HitBox.ToRectangleShape();
             test.FillColor = new Color(255,100,100,150);
             target.Draw(test);
-            target.Draw(p);
+            target.Draw(Projectiles);
         }
 
         public void Update(Time dt)
         {
             Sprite.Update(dt);//animation
 
-            p.Update(dt);
-            
+            Projectiles.Update(dt);
+            _shootTime += dt;
 
             Vector2f pos = Position;
             Vector2f vel = Velocity;
@@ -94,7 +96,11 @@ namespace testlol.World.Entity
 
         public void Shoot()
         {
-            p.Shoot<Bullet>(Position);
+            if (_shootTime >= _shootMax)
+            {
+                _shootTime = Time.Zero;
+                Projectiles.Shoot<Bullet>(Position, _bulletSprite);
+            }
         }
 
     }

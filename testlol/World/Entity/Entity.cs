@@ -12,8 +12,6 @@ namespace testlol.World.Entity
     public abstract class Entity : Drawable
     {
         public FloatRect HitBox { get; private set; }
-        protected RectangleShape BoundingBox { get; private set; }
-        public bool DrawBoundingBox { get; set; }
         public Vector2f Velocity { get; set; }
         public int Direction { get; set; }
         protected AnimatedSprite Sprite { get; private set; }
@@ -24,7 +22,6 @@ namespace testlol.World.Entity
             set
             {
                 Sprite.Position = value;
-                BoundingBox.Position = new Vector2f(value.X +16, value.Y);
                 HitBox = new FloatRect(value.X + 16, value.Y, 32, 64);
             }
         }
@@ -40,13 +37,7 @@ namespace testlol.World.Entity
         {
             Sprite = new AnimatedSprite(t, aList);
             Size = new Vector2u(64,64);
-            BoundingBox = new RectangleShape(new Vector2f(32,64))
-            {
-                FillColor = new Color(255,255,0,150)
-            };
             HitBox = new FloatRect(Position.X-16,Position.Y,32,64);
-            
-
         }
         public abstract void Draw(RenderTarget target, RenderStates states);
 

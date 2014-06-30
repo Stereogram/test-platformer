@@ -47,7 +47,7 @@ namespace testlol.States
             EventMap[Actions.Quit] = new Action(Keyboard.Key.Escape, ActionType.ReleaseOnce) | new Action(EventType.Closed);
             EventMap[Actions.Left] = new Action(Keyboard.Key.A, ActionType.Hold);
             EventMap[Actions.Right] = new Action(Keyboard.Key.D, ActionType.Hold);
-            EventMap[Actions.Jump] = new Action(Keyboard.Key.Space, ActionType.Hold);
+            EventMap[Actions.Jump] = new Action(Keyboard.Key.Space, ActionType.PressOnce);
             EventMap[Actions.Shoot] = new Action(Keyboard.Key.LShift, ActionType.Hold);
             EventMap[Actions.Stop] = new Action(Keyboard.Key.A, ActionType.ReleaseOnce) | new Action(Keyboard.Key.D, ActionType.ReleaseOnce);
             

@@ -14,10 +14,9 @@ namespace testlol.World.Entity
         private Time _shootTime = Time.Zero;
         private const float _gravity = 10;
         public readonly Projectiles Projectiles = new Projectiles();
-        private readonly Sprite _bulletSprite = new Sprite(new Texture(@"assets/player/bullet.png"));
+        private readonly Texture _bullet = new Texture(@"assets/player/bullet.png");
         public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
         {
-            //DrawBoundingBox = true;
             Position = new Vector2f(500, 500);
             Velocity = new Vector2f(250, 0);
 
@@ -25,10 +24,6 @@ namespace testlol.World.Entity
         public override void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(Sprite, states);
-            if(DrawBoundingBox)
-            {
-                target.Draw(BoundingBox, states);
-            }
             RectangleShape test = HitBox.ToRectangleShape();
             test.FillColor = new Color(255,100,100,150);
             target.Draw(test);
@@ -99,7 +94,7 @@ namespace testlol.World.Entity
             if (_shootTime >= _shootMax)
             {
                 _shootTime = Time.Zero;
-                Projectiles.Shoot<Bullet>(Position, _bulletSprite);
+                Projectiles.Shoot<Bullet>(Position, _bullet, null);
             }
         }
 

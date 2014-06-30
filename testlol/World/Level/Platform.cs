@@ -14,10 +14,6 @@ namespace testlol.World.Level
         public override void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(Sprite, states);
-            if (DrawBoundingBox)
-            {
-                target.Draw(BoundingBox, states);
-            }
         }
 
     }

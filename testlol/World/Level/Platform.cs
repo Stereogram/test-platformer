@@ -11,6 +11,11 @@ namespace testlol.World.Level
             Position = p;
         }
 
+        public override FloatRect HitBox { get; protected set; }
+        protected override Vector2i OffSet { get; set; }
+
+        public override Vector2u Size { get; protected set; }
+
         public override void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(Sprite, states);

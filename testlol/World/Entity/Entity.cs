@@ -11,7 +11,8 @@ namespace testlol.World.Entity
     /// </summary>
     public abstract class Entity : Drawable
     {
-        public FloatRect HitBox { get; private set; }
+        public abstract FloatRect HitBox { get; protected set; }
+        protected abstract Vector2i OffSet { get; set; }
         public Vector2f Velocity { get; set; }
         public int Direction { get; set; }
         protected AnimatedSprite Sprite { get; private set; }
@@ -22,10 +23,10 @@ namespace testlol.World.Entity
             set
             {
                 Sprite.Position = value;
-                HitBox = new FloatRect(value.X + 16, value.Y, 32, 64);
+                HitBox = new FloatRect(OffSet.X + value.X, OffSet.Y + value.Y, Size.X, Size.Y);
             }
         }
-        public Vector2u Size { get; private set; }
+        public abstract Vector2u Size { get; protected set; }
         public bool Jumping { get; set; }
         public Vector2i Location { get { return (Vector2i) Position/32; } }
         public void Play(string s, bool b)
@@ -36,8 +37,6 @@ namespace testlol.World.Entity
         protected Entity(Texture t, List<Tuple<string, int>> aList )
         {
             Sprite = new AnimatedSprite(t, aList);
-            Size = new Vector2u(64,64);
-            HitBox = new FloatRect(Position.X-16,Position.Y,32,64);
         }
         public abstract void Draw(RenderTarget target, RenderStates states);
 

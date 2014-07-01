@@ -8,15 +8,21 @@ using testlol.World.Entity.Projectile;
 
 namespace testlol.World.Entity
 {
-    class Player : Entity, IUpdatable
+    sealed class Player : Entity, IUpdatable
     {
         private readonly Time _shootMax = Time.FromSeconds(0.5f);
         private Time _shootTime = Time.Zero;
         private const float _gravity = 10;
         public readonly Projectiles Projectiles = new Projectiles();
         private readonly Texture _bullet = new Texture(@"assets/player/bullet.png");
+        public override FloatRect HitBox { get; protected set; }
+        public override Vector2u Size { get; protected set; }
+        protected override Vector2i OffSet { get; set; }
         public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
         {
+            Size = new Vector2u(32,64);
+            HitBox = new FloatRect(Position.X - 16, Position.Y, Size.X, Size.Y);
+            OffSet = new Vector2i(16,0);
             Position = new Vector2f(500, 500);
             Velocity = new Vector2f(250, 0);
 

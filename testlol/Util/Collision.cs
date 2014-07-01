@@ -48,6 +48,7 @@ namespace testlol.Util
                             entity.Velocity = new Vector2f(entity.Velocity.X, 0);
                         }
                     }
+                    ((Player) entity).Projectiles.ProjectileList.RemoveAll(c => Box.AABBCheck(new Box(c), b));
                     //foreach (Entity projectile in ((Player)entity).Projectiles.ProjectileList)
                     //{
                     //    Box p = new Box(projectile);

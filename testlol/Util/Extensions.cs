@@ -60,6 +60,5 @@ namespace testlol.Util
             return new RectangleShape(new Vector2f(a.Width, a.Height)) {Position = new Vector2f(a.Left, a.Top)};
         }
 
-
     }
 }

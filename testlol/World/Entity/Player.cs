@@ -51,7 +51,6 @@ namespace testlol.World.Entity
 
             pos.X += Direction * Velocity.X * (float) dt.Seconds;
             pos.Y += Velocity.Y * (float) dt.Seconds;
-            //pos.Y += _gravity * (float)dt.Seconds;
 
             Position = pos;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.Window;
 using testlol.Util;
@@ -92,6 +91,8 @@ namespace testlol.World.Level
                 {
                     for (int j = (int)(_topLeft.X / 32); j < (int)(_topLeft.X + Game.Size.X) / 32; j++)
                     {
+                        if (i < 0 || j < 0 || i>22)
+                            continue;
                         if (_map[i, j] != 0)
                         {
                             _collidables.Add(new FloatRect(j*32,i*32,32,32));

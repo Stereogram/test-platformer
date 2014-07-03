@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SFML.Window;
@@ -50,7 +51,7 @@ namespace testlol.World.Level
             foreach (string line in File.ReadAllLines(s))
             {
                 List<int> temp = new List<int>();
-                temp.AddRange(from c in line where char.IsDigit(c) select int.Parse(c.ToString()));
+                temp.AddRange(line.Split(',').Select(int.Parse));
                 list.Add(temp);
             }
 

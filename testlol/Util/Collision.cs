@@ -4,6 +4,7 @@ using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
 using testlol.World.Entity;
+using testlol.World.Entity.Projectile;
 using testlol.World.Level;
 
 namespace testlol.Util
@@ -48,13 +49,16 @@ namespace testlol.Util
                             entity.Velocity = new Vector2f(entity.Velocity.X, 0);
                         }
                     }
-                    ((Player) entity).Projectiles.ProjectileList.RemoveAll(c => Box.AABBCheck(new Box(c), b));
-                    //foreach (Entity projectile in ((Player)entity).Projectiles.ProjectileList)
-                    //{
-                    //    Box p = new Box(projectile);
-                    //    if(Box.AABBCheck(p,b))
-                    //        ((Player)entity).Projectiles.Remove(projectile);
-                    //}
+                    ((Player) entity).Projectiles.ProjectileList.RemoveAll(c =>
+                    {
+                        if (Box.AABBCheck(new Box(c), b))
+                        {
+                            ((Player) entity).Projectiles.Explode(c);
+                            return true;
+                        }
+                        return false;
+                    });
+                    
                 }
             }
         }

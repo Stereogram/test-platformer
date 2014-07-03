@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using NetEXT.Input;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
 using testlol.Util;
-using testlol.World;
 using testlol.World.Entity;
 using testlol.World.Level;
 using Action = NetEXT.Input.Action;
@@ -16,7 +14,7 @@ namespace testlol.States
     public class PlayState : GameState
     {
         Text t = new Text("Play State", Game.Font);
-        private Text _posText = new Text("", Game.Font);
+        private readonly Text _posText = new Text("", Game.Font);
 
         private readonly List<Entity> _entities = new List<Entity>(); 
 
@@ -27,7 +25,7 @@ namespace testlol.States
         private readonly RectangleShape _testShape = new RectangleShape((Vector2f)Game.Size);
 
         private readonly TileMap _testTileMap;
-        private Collision testCollision;
+        private readonly Collision _testCollision;
 
         public PlayState(StateMachine machine, RenderWindow window, bool replace = true)
             : base(machine, window, replace)
@@ -39,8 +37,8 @@ namespace testlol.States
             _entities.Add(_player);
             _testShape.FillColor = new Color(50, 50, 50, 200);
             
-            _testTileMap = new TileMap(new Texture(@"assets/maps/tileset1.png"), 32, Map.LoadMap(@"assets/maps/2.txt"));
-            testCollision = new Collision(_testTileMap, _entities);
+            _testTileMap = new TileMap(new Texture(@"assets/maps/1.png"), 32, Map.LoadMap(@"assets/maps/2.txt"));
+            _testCollision = new Collision(_testTileMap, _entities);
 
 
             EventMap[Actions.Pause] = new Action(Keyboard.Key.Tab, ActionType.PressOnce);
@@ -85,13 +83,13 @@ namespace testlol.States
             if (Paused) return;
 
             _player.Update(dt);
-            testCollision.Update(dt);
+            _testCollision.Update(dt);
             View v = Window.GetView();
             v.Center = _player.Position.X < (Game.Size.X / 2.0) ? new Vector2f(Game.Size.X / 2.0f,_player.Position.Y) : _player.Position;
             
             Window.SetView(v);
 
-            _posText.DisplayedString = _player.HitBox.ToString() + '\n' + _player.Velocity.ToString();
+            _posText.DisplayedString = _player.Position.ToString();
             _posText.Position = new Vector2f(_player.Position.X - (Game.Size.X / 2.0f), _player.Position.Y - (Game.Size.Y / 2.0f));
 
         }
@@ -99,8 +97,7 @@ namespace testlol.States
         public override void ProcessEvents()
         {
             base.ProcessEvents();
-            if(Paused)
-                _player.Velocity = new Vector2f(0,0);
+            
         }
 
         public override void Draw()

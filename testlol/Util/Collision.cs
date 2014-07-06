@@ -64,6 +64,7 @@ namespace testlol.Util
         }
     }
 
+    //from: http://www.gamedev.net/page/resources/_/technical/game-programming/swept-aabb-collision-detection-and-response-r3084
     // describes an axis-aligned rectangle with a velocity
     public class Box
     {

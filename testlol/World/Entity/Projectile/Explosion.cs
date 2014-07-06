@@ -17,7 +17,7 @@ namespace testlol.World.Entity.Projectile
         public Explosion(Vector2f p, Texture t)
         {
             LifeTime = Time.Zero;
-            _sprite = new AnimatedSprite(t,null){Position = p};
+            _sprite = new AnimatedSprite(t, new Vector2u(48,48), AnimatedSprite.ReadAnimations(@"assets/explosion.txt")) { Position = p };
             MaxTime = Time.FromSeconds(1);
         }
 

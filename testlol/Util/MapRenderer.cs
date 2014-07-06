@@ -77,10 +77,10 @@ namespace testlol.Util
             var w = (int)(v.X / _tileSize) + 2;
             var h = (int)(v.Y / _tileSize) + 2;
             if (w == _width && h == _height) return;
-
+            
             _width = w;
             _height = h;
-
+            
             _vertices = new Vertex[_width * _height * 4];
             RefreshScreen();
         }
@@ -119,8 +119,8 @@ namespace testlol.Util
         {
             var x = (int)(pos.X / _tileSize);
             var y = (int)(pos.Y / _tileSize);
-            if (pos.X < 0) x--;
-            if (pos.Y < 0) y--;
+            //if (pos.X < 0) x--;
+            //if (pos.Y < 0) y--;
             return new Vector2i(x, y);
         }
 

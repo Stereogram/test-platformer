@@ -36,8 +36,8 @@ namespace testlol.World.Level
         {
             if (x >= _map.X || y >= _map.Y)
             {
-                color = Color.Transparent;
-                rec = new IntRect(0,0,1,1);
+                color = Color.White;
+                rec = new IntRect(0,0,32,32);
                 return;
             }
             int tu = _map[y,x] % ((int)(_texture.Size.X / _tileSize));

@@ -6,7 +6,7 @@ namespace testlol.World.Level
     class Platform : Entity.Entity
     {
 
-        public Platform(Texture t, Vector2f p):base(t, null)
+        public Platform(Texture t, Vector2f p):base(t,new Vector2u(100,50),null)
         {
             Position = p;
         }

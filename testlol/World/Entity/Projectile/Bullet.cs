@@ -15,7 +15,7 @@ namespace testlol.World.Entity.Projectile
         protected override Vector2i OffSet { get; set; }
         public override Vector2u Size { get; protected set; }
 
-        public Bullet(Vector2f p, Texture texture, List<Tuple<string, int>> anims) : base(texture,anims)
+        public Bullet(Vector2f p, Texture texture, List<Tuple<string, int>> anims) : base(texture, new Vector2u(16,16), anims)
         {
             Position = new Vector2f(p.X+32,p.Y+16);
             OffSet = new Vector2i(16,4);

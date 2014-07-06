@@ -16,7 +16,7 @@ namespace testlol.Util
         private readonly AnimatedObject<Sprite> _animatedObject;
         private readonly Sprite _sprite;
         private readonly Vector2u _tSize;
-        private const int _size = 64;
+        private readonly Vector2u _size;
 
         public Vector2f Position
         {
@@ -24,10 +24,10 @@ namespace testlol.Util
             set { _sprite.Position = value; }
         }
 
-        public AnimatedSprite(Texture texture, List<Tuple<string,int>> aList)
+        public AnimatedSprite(Texture texture, Vector2u size, List<Tuple<string,int>> aList = null)
         {
             _sprite = new Sprite(texture);
-            
+            _size = size;
             if (aList == null) return;
             _animationList = aList;
             
@@ -46,9 +46,9 @@ namespace testlol.Util
                 FrameAnimation<Sprite> temp = new FrameAnimation<Sprite>();
                 for (int i = 0; i < t.Item2; i++, total++)
                 {
-                    int tu = (int)(total % (_tSize.X / _size)) * _size;
-                    int tv = (int)(total / (_tSize.X / _size)) * _size;
-                    temp.AddFrame(1, new IntRect(tu, tv, _size, _size));
+                    int tu = (int) ((total % (_tSize.X / _size.Y)) * _size.X);
+                    int tv = (int) ((total / (_tSize.Y / _size.Y)) * _size.Y);
+                    temp.AddFrame(1, new IntRect(tu, tv, (int)_size.X, (int)_size.Y));
                 }
                 _animator.AddAnimation(t.Item1,temp,Time.FromSeconds(1));
             }

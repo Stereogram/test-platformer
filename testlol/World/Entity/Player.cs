@@ -18,14 +18,13 @@ namespace testlol.World.Entity
         public override FloatRect HitBox { get; protected set; }
         public override Vector2u Size { get; protected set; }
         protected override Vector2i OffSet { get; set; }
-        public Player(Texture t, List<Tuple<string, int>> a):base(t,a)
+        public Player(Texture t, List<Tuple<string, int>> a):base(t, new Vector2u(64,64), a)
         {
             Size = new Vector2u(32,64);
             HitBox = new FloatRect(Position.X - 16, Position.Y, Size.X, Size.Y);
             OffSet = new Vector2i(16,0);
-            Position = new Vector2f(500, 500);
+            Position = new Vector2f(0, 0);
             Velocity = new Vector2f(250, 0);
-
         }
         public override void Draw(RenderTarget target, RenderStates states)
         {

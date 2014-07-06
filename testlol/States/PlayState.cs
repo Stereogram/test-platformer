@@ -37,7 +37,7 @@ namespace testlol.States
             _entities.Add(_player);
             _testShape.FillColor = new Color(50, 50, 50, 200);
             
-            _testTileMap = new TileMap(new Texture(@"assets/maps/1.png"), 32, Map.LoadMap(@"assets/maps/2.txt"));
+            _testTileMap = new TileMap(new Texture(@"assets/maps/1.png"), 32, Map.LoadMap(@"assets/maps/1.txt"));
             _testCollision = new Collision(_testTileMap, _entities);
 
 
@@ -49,13 +49,12 @@ namespace testlol.States
             EventMap[Actions.Shoot] = new Action(Keyboard.Key.LShift, ActionType.Hold);
             EventMap[Actions.Stop] = new Action(Keyboard.Key.A, ActionType.ReleaseOnce) | new Action(Keyboard.Key.D, ActionType.ReleaseOnce);
             
-            
-
             EventSystem.Connect(Actions.Pause, c =>
             {
                 if (!Paused) Pause();
                 else Resume();
             });
+
             EventSystem.Connect(Actions.Quit, c => Machine.Running = false);
             EventSystem.Connect(Actions.Left, c => _player.Move(-1));
             EventSystem.Connect(Actions.Right, c => _player.Move(1));

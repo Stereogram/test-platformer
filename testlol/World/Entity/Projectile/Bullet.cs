@@ -11,6 +11,7 @@ namespace testlol.World.Entity.Projectile
     {
         public Time LifeTime { get; set; }
         public Time MaxTime { get; private set; }
+        public bool Enabled { get; set; }
         public override FloatRect HitBox { get; protected set; }
         protected override Vector2i OffSet { get; set; }
         public override Vector2u Size { get; protected set; }
@@ -24,6 +25,7 @@ namespace testlol.World.Entity.Projectile
             Velocity = new Vector2f(500,0);
             MaxTime = Time.FromSeconds(1.5f);
             LifeTime = Time.Zero;
+            Enabled = true;
         }
 
         public void Update(Time dt)
@@ -32,12 +34,17 @@ namespace testlol.World.Entity.Projectile
             pos.X += Velocity.X * (float) dt.Seconds;
             Position = pos;
             LifeTime += dt;
+            if (LifeTime >= MaxTime)
+                Enabled = false;
         }
 
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(Sprite);
+            if(Enabled)
+                target.Draw(Sprite);
+#if DEBUG
             target.Draw(new RectangleShape(HitBox.ToRectangleShape()));
+#endif
         }
 
     }

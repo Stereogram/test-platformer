@@ -14,6 +14,11 @@ namespace testlol.World.Entity
         /// <summary>
         /// Time limit for entity.
         /// </summary>
-        Time MaxTime { get; } 
+        Time MaxTime { get; }
+        /// <summary>
+        /// If entity is alive.
+        /// </summary>
+        bool Enabled { get; set; }
+
     }
 }

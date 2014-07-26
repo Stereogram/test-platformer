@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
 using testlol.World.Entity;
-using testlol.World.Entity.Projectile;
 using testlol.World.Level;
 
 namespace testlol.Util
@@ -39,7 +39,7 @@ namespace testlol.Util
                         pos.Y += y;
                         entity.Position = pos;
                         //Console.WriteLine("x:{0},y:{1}",x,y);
-                        if (y < 0 && x == 0)
+                        if (y < 0 && x == 0)//todo: fix this shit.
                         {
                             entity.Velocity = new Vector2f(entity.Velocity.X, 0);
                             entity.Jumping = false;
@@ -49,16 +49,15 @@ namespace testlol.Util
                             entity.Velocity = new Vector2f(entity.Velocity.X, 0);
                         }
                     }
-                    ((Player) entity).Projectiles.ProjectileList.RemoveAll(c =>
+                    IShooter shooter = entity as IShooter;
+                    if (shooter != null)
                     {
-                        if (Box.AABBCheck(new Box(c), b))
+                        foreach (var proj in shooter.Projectiles.ProjectileList.Where(proj => Box.AABBCheck(new Box(proj), b)))
                         {
-                            ((Player) entity).Projectiles.Explode(c);
-                            return true;
+                            shooter.Projectiles.Explode(proj);
                         }
-                        return false;
-                    });
-                    
+                    }
+
                 }
             }
         }

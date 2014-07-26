@@ -25,7 +25,9 @@ namespace testlol.World.Entity
         /// </summary>
         public int Direction { get; set; }
         protected AnimatedSprite Sprite { get; private set; }
-
+        /// <summary>
+        /// Pixel position of entity.
+        /// </summary>
         public Vector2f Position
         {
             get { return Sprite.Position; }
@@ -40,6 +42,9 @@ namespace testlol.World.Entity
         /// </summary>
         public abstract Vector2u Size { get; protected set; }
         public bool Jumping { get; set; }
+        /// <summary>
+        /// Position in tile map coordinates
+        /// </summary>
         public Vector2i Location { get { return (Vector2i) Position/32; } }
         public void Play(string s, bool b)
         {

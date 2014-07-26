@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NetEXT.Animation;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
@@ -87,18 +88,7 @@ namespace testlol.Util
 
         public static List<Tuple<string, int>> ReadAnimations(string s)
         {
-            List<Tuple<string, int>> aList = new List<Tuple<string, int>>();
-            using (StreamReader sr = new StreamReader(new FileStream(s, FileMode.Open)))
-            {
-                string line = null;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    var a = line.Split(' ');
-                    aList.Add(new Tuple<string, int>(a[0],int.Parse(a[1])));
-                }
-            }
-            return aList;
+            return File.ReadAllLines(s).Select(line => line.Split(' ')).Select(a => new Tuple<string, int>(a[0], int.Parse(a[1]))).ToList();
         }
-
     }
 }

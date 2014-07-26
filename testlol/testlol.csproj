@@ -124,6 +124,7 @@
     <Compile Include="States\PauseState.cs" />
     <Compile Include="Util\AnimatedSprite.cs" />
     <Compile Include="World\Entity\Enemy\Monster.cs" />
+    <Compile Include="World\Entity\IShooter.cs" />
     <Compile Include="World\Entity\ITemporal.cs" />
     <Compile Include="World\Entity\Projectile\Explosion.cs" />
     <Compile Include="World\Entity\Projectile\Missile.cs" />

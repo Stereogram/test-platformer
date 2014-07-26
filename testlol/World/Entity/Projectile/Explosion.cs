@@ -10,6 +10,7 @@ namespace testlol.World.Entity.Projectile
     {
         public Time LifeTime { get; set; }
         public Time MaxTime { get; private set; }
+        public bool Enabled { get; set; }
 
         private readonly AnimatedSprite _sprite;
 
@@ -19,16 +20,20 @@ namespace testlol.World.Entity.Projectile
             LifeTime = Time.Zero;
             _sprite = new AnimatedSprite(t, new Vector2u(48,48), AnimatedSprite.ReadAnimations(@"assets/explosion.txt")) { Position = p };
             MaxTime = Time.FromSeconds(1);
+            Enabled = true;
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(_sprite);
+            if(Enabled)
+                target.Draw(_sprite);
         }
 
         public void Update(Time dt)
         {
             LifeTime += dt;
+            if (LifeTime >= MaxTime)
+                Enabled = false;
             _sprite.Update(dt);
         }
     }

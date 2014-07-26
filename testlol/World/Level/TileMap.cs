@@ -15,7 +15,8 @@ namespace testlol.World.Level
         private Vector2f _topLeft;
 
         private readonly List<FloatRect> _collidables = new List<FloatRect>();
-        public List<FloatRect> Collidables { get { return _collidables; } } 
+        public List<FloatRect> Collidables { get { return _collidables; } }
+        public Vector2i Size { get { return new Vector2i(_map.X*_tileSize,_map.Y*_tileSize);} }
 
         public TileMap(Texture texture, int tileSize, Map map)
         {

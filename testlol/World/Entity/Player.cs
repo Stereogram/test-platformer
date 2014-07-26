@@ -8,18 +8,19 @@ using testlol.World.Entity.Projectile;
 
 namespace testlol.World.Entity
 {
-    sealed class Player : Entity, IUpdatable
+    sealed class Player : Entity, IUpdatable, IShooter
     {
         private readonly Time _shootMax = Time.FromSeconds(0.5f);
         private Time _shootTime = Time.Zero;
         private const float _gravity = 10;
-        public readonly Projectiles Projectiles = new Projectiles();
+        public Projectiles Projectiles { get; private set; }
         private readonly Texture _bullet = new Texture(@"assets/player/bullet.png");
         public override FloatRect HitBox { get; protected set; }
         public override Vector2u Size { get; protected set; }
         protected override Vector2i OffSet { get; set; }
         public Player(Texture t, List<Tuple<string, int>> a):base(t, new Vector2u(64,64), a)
         {
+            Projectiles = new Projectiles();
             Size = new Vector2u(32,64);
             HitBox = new FloatRect(Position.X - 16, Position.Y, Size.X, Size.Y);
             OffSet = new Vector2i(16,0);
@@ -29,10 +30,12 @@ namespace testlol.World.Entity
         public override void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(Sprite, states);
-            RectangleShape test = HitBox.ToRectangleShape();
-            test.FillColor = new Color(255,100,100,150);
-            target.Draw(test);
             target.Draw(Projectiles);
+#if DEBUG
+            RectangleShape test = HitBox.ToRectangleShape();
+            test.FillColor = new Color(255, 100, 100, 150);
+            target.Draw(test);
+#endif
         }
 
         public void Update(Time dt)
@@ -102,5 +105,6 @@ namespace testlol.World.Entity
             }
         }
 
+        
     }
 }

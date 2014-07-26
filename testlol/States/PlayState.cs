@@ -40,7 +40,7 @@ namespace testlol.States
             _testTileMap = new TileMap(new Texture(@"assets/maps/1.png"), 32, Map.LoadMap(@"assets/maps/1.txt"));
             _testCollision = new Collision(_testTileMap, _entities);
 
-
+// ReSharper disable RedundantArgumentDefaultValue
             EventMap[Actions.Pause] = new Action(Keyboard.Key.Tab, ActionType.PressOnce);
             EventMap[Actions.Quit] = new Action(Keyboard.Key.Escape, ActionType.ReleaseOnce) | new Action(EventType.Closed);
             EventMap[Actions.Left] = new Action(Keyboard.Key.A, ActionType.Hold);
@@ -48,19 +48,18 @@ namespace testlol.States
             EventMap[Actions.Jump] = new Action(Keyboard.Key.Space, ActionType.PressOnce);
             EventMap[Actions.Shoot] = new Action(Keyboard.Key.LShift, ActionType.Hold);
             EventMap[Actions.Stop] = new Action(Keyboard.Key.A, ActionType.ReleaseOnce) | new Action(Keyboard.Key.D, ActionType.ReleaseOnce);
-            
+// ReSharper restore RedundantArgumentDefaultValue
+
             EventSystem.Connect(Actions.Pause, c =>
             {
                 if (!Paused) Pause();
                 else Resume();
             });
-
             EventSystem.Connect(Actions.Quit, c => Machine.Running = false);
             EventSystem.Connect(Actions.Left, c => _player.Move(-1));
             EventSystem.Connect(Actions.Right, c => _player.Move(1));
             EventSystem.Connect(Actions.Jump, c => _player.Jump());
             EventSystem.Connect(Actions.Stop, c => _player.Move(0));
-            //EventSystem.Connect(Actions.Shoot, c => _testTileMap[_player.Location.Y,_player.Location.X] = 4);
             EventSystem.Connect(Actions.Shoot, c => _player.Shoot());
         }
 
@@ -85,7 +84,7 @@ namespace testlol.States
             _testCollision.Update(dt);
             View v = Window.GetView();
             v.Center = _player.Position.X < (Game.Size.X / 2.0) ? new Vector2f(Game.Size.X / 2.0f,_player.Position.Y) : _player.Position;
-            
+            v.Center = _player.Position.X > (_testTileMap.Size.X - (Game.Size.X / 2)) ? new Vector2f(_testTileMap.Size.X - (Game.Size.X / 2), _player.Position.Y) : _player.Position;
             Window.SetView(v);
 
             _posText.DisplayedString = _player.Position.ToString();
@@ -93,6 +92,7 @@ namespace testlol.States
 
         }
 
+// ReSharper disable once RedundantOverridenMember
         public override void ProcessEvents()
         {
             base.ProcessEvents();

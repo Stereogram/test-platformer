@@ -4,7 +4,6 @@ using System.Linq;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
-using testlol.Util;
 
 namespace testlol.World.Entity.Projectile
 {
@@ -34,12 +33,12 @@ namespace testlol.World.Entity.Projectile
             {
                 projectile.Update(dt);
             }
-            ProjectileList.RemoveAll(x => ((ITemporal)x).LifeTime >= ((ITemporal)x).MaxTime);
+            ProjectileList.RemoveAll(x => !((ITemporal)x).Enabled);
             foreach (Explosion explosion in _explosions)
             {
                 explosion.Update(dt);
             }
-            _explosions.RemoveAll(x => x.LifeTime >= x.MaxTime);
+            _explosions.RemoveAll(x => !x.Enabled);
         }
 
         public void Shoot<T>(Vector2f p, Texture t, List<Tuple<string, int>>  anims) where T : class
@@ -49,6 +48,7 @@ namespace testlol.World.Entity.Projectile
 
         public void Explode(Entity a)
         {
+            ((ITemporal) a).Enabled = false;
             _explosions.Add(new Explosion(a.Position,_explosion));
         }
 

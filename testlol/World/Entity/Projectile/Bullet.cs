@@ -15,8 +15,9 @@ namespace testlol.World.Entity.Projectile
         public override FloatRect HitBox { get; protected set; }
         protected override Vector2i OffSet { get; set; }
         public override Vector2u Size { get; protected set; }
+        private static readonly Texture _texture = Game.Textures[@"assets\player\bullet.png"];
 
-        public Bullet(Vector2f p, Texture texture, List<Tuple<string, int>> anims) : base(texture, new Vector2u(16,16), anims)
+        public Bullet(Vector2f p) : base(_texture, new Vector2u(16,16), null)//todo make not null
         {
             Position = new Vector2f(p.X+32,p.Y+16);
             OffSet = new Vector2i(16,4);

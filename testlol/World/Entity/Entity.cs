@@ -56,7 +56,7 @@ namespace testlol.World.Entity
         /// <param name="texture">The sprite's texture</param>
         /// <param name="size">Size of the sprite, can be different from hitbox.</param>
         /// <param name="aList">animations, "name"|"number of frames"</param>
-        protected Entity(Texture texture, Vector2u size, List<Tuple<string, int>> aList )
+        protected Entity(Texture texture, Vector2u size, List<Animation> aList )
         {
             Sprite = new AnimatedSprite(texture, size, aList);
         }

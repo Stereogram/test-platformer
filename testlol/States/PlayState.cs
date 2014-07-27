@@ -33,7 +33,7 @@ namespace testlol.States
             _posText.Position = new Vector2f(300,0);
             _posText.CharacterSize = 16;
             Console.WriteLine("play created");
-            _player = new Player(new Texture(@"assets/player/megaman.png"), AnimatedSprite.ReadAnimations(@"assets/player/megaman.txt"));
+            _player = new Player();
             _entities.Add(_player);
             _testShape.FillColor = new Color(50, 50, 50, 200);
             
@@ -92,11 +92,11 @@ namespace testlol.States
 
         }
 
-// ReSharper disable once RedundantOverridenMember
         public override void ProcessEvents()
         {
             base.ProcessEvents();
-            
+            if(Keyboard.IsKeyPressed(Keyboard.Key.R))
+                _player.Position = new Vector2f(0,0);
         }
 
         public override void Draw()

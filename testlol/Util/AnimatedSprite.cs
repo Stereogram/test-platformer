@@ -12,7 +12,7 @@ namespace testlol.Util
 {
     public class AnimatedSprite: IUpdatable, Drawable
     {
-        private readonly List<Tuple<string,int>> _animationList;
+        private readonly List<Animation> _animationList;
         private readonly Animator<Sprite, string> _animator;
         private readonly AnimatedObject<Sprite> _animatedObject;
         private readonly Sprite _sprite;
@@ -25,7 +25,7 @@ namespace testlol.Util
             set { _sprite.Position = value; }
         }
 
-        public AnimatedSprite(Texture texture, Vector2u size, List<Tuple<string,int>> aList = null)
+        public AnimatedSprite(Texture texture, Vector2u size, List<Animation> aList = null)
         {
             _sprite = new Sprite(texture);
             _size = size;
@@ -36,22 +36,22 @@ namespace testlol.Util
             _tSize = texture.Size;
             _animator = new Animator<Sprite, string>();
             AddFrames();
-            _animator.PlayAnimation(aList[0].Item1, true);
+            _animator.PlayAnimation(aList[0].Name, true);
         }
 
         private void AddFrames()
         {
             int total = 0;
-            foreach (Tuple<string, int> t in _animationList)
+            foreach (Animation anim in _animationList)
             {
                 FrameAnimation<Sprite> temp = new FrameAnimation<Sprite>();
-                for (int i = 0; i < t.Item2; i++, total++)
+                for (int i = 0; i < anim.Frames; i++, total++)
                 {
                     int tu = (int) ((total % (_tSize.X / _size.Y)) * _size.X);
                     int tv = (int) ((total / (_tSize.Y / _size.Y)) * _size.Y);
                     temp.AddFrame(1, new IntRect(tu, tv, (int)_size.X, (int)_size.Y));
                 }
-                _animator.AddAnimation(t.Item1,temp,Time.FromSeconds(1));
+                _animator.AddAnimation(anim.Name,temp,Time.FromSeconds(1));
             }
         }
 
@@ -78,17 +78,43 @@ namespace testlol.Util
         {
             using (StreamWriter sw = new StreamWriter(new FileStream(s, FileMode.Create)))
             {
-                foreach (Tuple<string, int> t in _animationList)
+                foreach (Animation t in _animationList)
                 {
-                    sw.Write(t.Item1 + " " + t.Item2 + '\n');
+                    sw.Write(t.Name + " " + t.Frames + '\n');
                 }
                 sw.Flush();
             }
         }
 
-        public static List<Tuple<string, int>> ReadAnimations(string s)
+        public static List<Animation> ReadAnimations(string s)
         {
-            return File.ReadAllLines(s).Select(line => line.Split(' ')).Select(a => new Tuple<string, int>(a[0], int.Parse(a[1]))).ToList();
+            return File.ReadAllLines(s).Select(line => line.Split(' ')).Select(a => new Animation(a[0], int.Parse(a[1]))).ToList();
         }
     }
+
+    public struct Animation
+    {
+        public Tuple<string, int> Data { get; set; }
+        public string Name { get { return Data.Item1; } }
+        public int Frames { get { return Data.Item2; } }
+        public Animation(string a, int b) : this()
+        {
+            Data = new Tuple<string, int>(a, b);
+        }
+
+        public static implicit operator Animation(Tuple<string, int> a)
+        {
+            var data = new Animation {Data = a};
+
+            return data;
+        }
+
+        public static implicit operator Tuple<string, int>(Animation a)
+        {
+            return a.Data;
+        }
+
+
+    }
+
 }

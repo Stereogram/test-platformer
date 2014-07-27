@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Ionic.Zip;
+using SFML.Graphics;
 
 namespace testlol.Util
 {
@@ -14,13 +15,12 @@ namespace testlol.Util
         public StuffLoader()
         {
             _files = Directory.GetFiles(_working + @"\assets", "*", SearchOption.AllDirectories);
+            Load();
         }
 
         public void Zip()
         {
-            
-
-            using (ZipFile zip = new ZipFile("assets.zip"))
+            using (ZipFile zip = new ZipFile("assets.stuff"))
             {
                 foreach (string file in _files)
                 {
@@ -29,6 +29,23 @@ namespace testlol.Util
                 zip.Save();
             }
         }
+
+        public void Load()
+        {
+            foreach (var file in _files)
+            {
+                switch (Path.GetExtension(file))
+                {
+                    case ".png":
+                        Game.Textures[file.Substring(_working.Length+1)] = new Texture(file);
+                        break;
+                    case ".ani":
+                        Game.Animations[file.Substring(_working.Length+1)] = AnimatedSprite.ReadAnimations(file);
+                        break;
+                }
+            }
+        }
+
 
 
     }

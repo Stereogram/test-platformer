@@ -1,12 +1,14 @@
-﻿using SFML.Graphics;
+﻿using System.Collections.Generic;
+using SFML.Graphics;
 using SFML.Window;
 using NetEXT.TimeFunctions;
 using testlol.States;
+using testlol.Util;
 
 namespace testlol
 {
     /// <summary>
-    /// Main game class initializes window and state machine. Ccontains the main game loop.
+    /// Main game class initializes window and state machine. Contains the main game loop.
     /// </summary>
     class Game
     {
@@ -18,10 +20,14 @@ namespace testlol
 
         private static readonly Font _font = new Font("C:\\Windows\\Fonts\\arial.ttf");
         public static Font Font { get { return _font; } }
-
+        public static StuffHolder<Texture> Textures { get; private set; }
+        public static StuffHolder<List<Animation>> Animations { get; private set; }
 
         public Game()
         {
+            Textures = new StuffHolder<Texture>();
+            Animations = new StuffHolder<List<Animation>>();
+            StuffLoader stuffLoader = new StuffLoader();
             _window.Closed += (sender, e) => ((Window)sender).Close();
             _machine.Run(StateMachine.BuildState<IntroState>(_machine, _window, true));
         }

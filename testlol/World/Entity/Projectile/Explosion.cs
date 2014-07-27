@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Collections.Generic;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
@@ -11,14 +13,15 @@ namespace testlol.World.Entity.Projectile
         public Time LifeTime { get; set; }
         public Time MaxTime { get; private set; }
         public bool Enabled { get; set; }
-
         private readonly AnimatedSprite _sprite;
+        private static readonly Texture _texture = Game.Textures[@"assets\explosion.png"];
+        private static readonly List<Animation> _animations = Game.Animations[@"assets\explosion.ani"];
 
         public Vector2f Position { get { return _sprite.Position; } set { _sprite.Position = value; } }
-        public Explosion(Vector2f p, Texture t)
+        public Explosion(Vector2f p)
         {
             LifeTime = Time.Zero;
-            _sprite = new AnimatedSprite(t, new Vector2u(48,48), AnimatedSprite.ReadAnimations(@"assets/explosion.txt")) { Position = p };
+            _sprite = new AnimatedSprite(_texture, new Vector2u(48, 48), _animations) { Position = p };
             MaxTime = Time.FromSeconds(1);
             Enabled = true;
         }

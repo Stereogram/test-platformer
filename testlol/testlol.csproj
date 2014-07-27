@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Util\Collision.cs" />
+    <Compile Include="Util\StuffHolder.cs" />
     <Compile Include="Util\StuffLoader.cs" />
     <Compile Include="Util\MapRenderer.cs" />
     <Compile Include="States\PauseState.cs" />

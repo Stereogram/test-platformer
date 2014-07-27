@@ -14,11 +14,12 @@ namespace testlol.World.Entity
         private Time _shootTime = Time.Zero;
         private const float _gravity = 10;
         public Projectiles Projectiles { get; private set; }
-        private readonly Texture _bullet = new Texture(@"assets/player/bullet.png");
         public override FloatRect HitBox { get; protected set; }
         public override Vector2u Size { get; protected set; }
         protected override Vector2i OffSet { get; set; }
-        public Player(Texture t, List<Tuple<string, int>> a):base(t, new Vector2u(64,64), a)
+        private static readonly Texture _texure = Game.Textures[@"assets\player\megaman.png"];
+        private static readonly List<Animation> _animations = Game.Animations[@"assets\player\megaman.ani"];
+        public Player():base(_texure, new Vector2u(64,64), _animations)
         {
             Projectiles = new Projectiles();
             Size = new Vector2u(32,64);
@@ -33,7 +34,7 @@ namespace testlol.World.Entity
             target.Draw(Projectiles);
 #if DEBUG
             RectangleShape test = HitBox.ToRectangleShape();
-            test.FillColor = new Color(255, 100, 100, 150);
+            test.FillColor = Jumping ? new Color(255, 100, 100, 150) : new Color(255, 0, 0, 150);
             target.Draw(test);
 #endif
         }
@@ -101,7 +102,7 @@ namespace testlol.World.Entity
             if (_shootTime >= _shootMax)
             {
                 _shootTime = Time.Zero;
-                Projectiles.Shoot<Bullet>(Position, _bullet, null);
+                Projectiles.Shoot<Bullet>(Position);
             }
         }
 

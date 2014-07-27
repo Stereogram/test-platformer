@@ -38,16 +38,21 @@ namespace testlol.Util
                         pos.X += x;
                         pos.Y += y;
                         entity.Position = pos;
-                        //Console.WriteLine("x:{0},y:{1}",x,y);
-                        if (y < 0 && x == 0)//todo: fix this shit.
+                        //if(y != 0)
+                        //    Console.WriteLine("x:{0},y:{1}",x,y);
+                        //todo: fix this shit.
+                        if (y < 0)
                         {
                             entity.Velocity = new Vector2f(entity.Velocity.X, 0);
                             entity.Jumping = false;
                         }
-                        if (y > 0)
+                        if (y > 0 && entity.Jumping)
                         {
-                            entity.Velocity = new Vector2f(entity.Velocity.X, 0);
+                            entity.Velocity = entity.Jumping
+                                ? new Vector2f(entity.Velocity.X, 0)
+                                : new Vector2f(entity.Velocity.X, entity.Velocity.Y);
                         }
+                        
                     }
                     IShooter shooter = entity as IShooter;
                     if (shooter != null)

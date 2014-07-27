@@ -2,6 +2,7 @@
 using SFML.Audio;
 using SFML.Window;
 using SFML.Graphics;
+using testlol.Util;
 
 namespace testlol
 {

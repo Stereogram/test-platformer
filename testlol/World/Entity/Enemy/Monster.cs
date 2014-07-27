@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
 using SFML.Window;
@@ -14,7 +12,7 @@ namespace testlol.World.Entity.Enemy
         protected override Vector2i OffSet { get; set; }
         public override Vector2u Size { get; protected set; }
 
-        public Monster(Texture t, Vector2u size, List<Tuple<string, int>> aList) : base(t, size, aList)
+        public Monster(Texture t, Vector2u size, List<Animation> aList) : base(t, size, aList)//todo fix this shit.
         {
             Size = new Vector2u(32, 64);
             HitBox = new FloatRect(Position.X - 16, Position.Y, Size.X, Size.Y);

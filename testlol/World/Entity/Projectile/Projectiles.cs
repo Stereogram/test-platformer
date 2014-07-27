@@ -13,8 +13,6 @@ namespace testlol.World.Entity.Projectile
 
         private readonly List<Explosion> _explosions = new List<Explosion>();
 
-        private readonly Texture _explosion = new Texture(@"assets/explosion.png");
-
         public void Draw(RenderTarget target, RenderStates states)
         {
             foreach (Entity projectile in ProjectileList)
@@ -41,15 +39,15 @@ namespace testlol.World.Entity.Projectile
             _explosions.RemoveAll(x => !x.Enabled);
         }
 
-        public void Shoot<T>(Vector2f p, Texture t, List<Tuple<string, int>>  anims) where T : class
+        public void Shoot<T>(Vector2f p) where T : class
         {
-            ProjectileList.Add((Entity)Activator.CreateInstance(typeof(T), new object[] { p, t, anims }) );
+            ProjectileList.Add((Entity)Activator.CreateInstance(typeof(T), new object[] { p }) );
         }
 
         public void Explode(Entity a)
         {
             ((ITemporal) a).Enabled = false;
-            _explosions.Add(new Explosion(a.Position,_explosion));
+            _explosions.Add(new Explosion(a.Position));
         }
 
     }

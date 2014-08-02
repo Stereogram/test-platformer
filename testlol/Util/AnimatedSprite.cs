@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using NetEXT.Animation;
 using NetEXT.TimeFunctions;
 using SFML.Graphics;
@@ -90,31 +91,33 @@ namespace testlol.Util
         {
             return File.ReadAllLines(s).Select(line => line.Split(' ')).Select(a => new Animation(a[0], int.Parse(a[1]))).ToList();
         }
+
+        public static List<Animation> ReadAnimations(Stream s)
+        {
+            var list = new List<Animation>();
+            s.Position = 0;
+            using (StreamReader sr = new StreamReader(s))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    var a = line.Split(' ');
+                    list.Add(new Animation(a[0],int.Parse(a[1])));
+                }
+            }
+            return list;
+        }
     }
 
     public struct Animation
     {
-        public Tuple<string, int> Data { get; set; }
-        public string Name { get { return Data.Item1; } }
-        public int Frames { get { return Data.Item2; } }
-        public Animation(string a, int b) : this()
+        public string Name { get; set; }
+        public int Frames { get; set; }
+        public Animation(string name, int frames) : this()
         {
-            Data = new Tuple<string, int>(a, b);
+            Name = name;
+			Frames = frames;
         }
-
-        public static implicit operator Animation(Tuple<string, int> a)
-        {
-            var data = new Animation {Data = a};
-
-            return data;
-        }
-
-        public static implicit operator Tuple<string, int>(Animation a)
-        {
-            return a.Data;
-        }
-
-
     }
 
 }

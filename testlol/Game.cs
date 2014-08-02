@@ -27,6 +27,7 @@ namespace testlol
         {
             Textures = new StuffHolder<Texture>();
             Animations = new StuffHolder<List<Animation>>();
+// ReSharper disable once UnusedVariable
             StuffLoader stuffLoader = new StuffLoader();
             _window.Closed += (sender, e) => ((Window)sender).Close();
             _machine.Run(StateMachine.BuildState<IntroState>(_machine, _window, true));

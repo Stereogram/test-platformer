@@ -7,18 +7,13 @@ namespace testlol.World.Level
     class Background : Drawable
     {
         private readonly List<Sprite> _sprites;
-        public Background(params Texture[] t)
+        public Background(Texture t)
         {
             _sprites = new List<Sprite>();
-            foreach(Texture s in t)
-            {
-                _sprites.Add(new Sprite(s));
-                if(s.Size.X < 1366)
-                {
-                    Sprite a = new Sprite(s) {Position = new Vector2f(s.Size.X, 0)};
-                    _sprites.Add(a);
-                }
-            }
+            t.Repeated = true;
+            var s = new Sprite(t) {TextureRect = new IntRect(0,0,2000,1000)};
+            _sprites.Add(s);
+
         }
 
         public void Add(Texture t, int layer = int.MaxValue)

@@ -18,7 +18,7 @@ namespace testlol.States
 
         private readonly List<Entity> _entities = new List<Entity>(); 
 
-        private readonly Background _bg = new Background(new Texture(@"assets/maps/bg1.png"));
+        private readonly Background _bg = new Background(Game.Textures[@"assets\maps\bg1.png"]);
 
         private readonly Player _player;
         
@@ -37,7 +37,7 @@ namespace testlol.States
             _entities.Add(_player);
             _testShape.FillColor = new Color(50, 50, 50, 200);
             
-            _testTileMap = new TileMap(new Texture(@"assets/maps/1.png"), 32, Map.LoadMap(@"assets/maps/1.txt"));
+            _testTileMap = new TileMap(Game.Textures[@"assets\maps\1.png"], 32, Map.LoadMap(@"assets\maps\1.txt"));
             _testCollision = new Collision(_testTileMap, _entities);
 
 // ReSharper disable RedundantArgumentDefaultValue
@@ -83,11 +83,21 @@ namespace testlol.States
             _player.Update(dt);
             _testCollision.Update(dt);
             View v = Window.GetView();
-            v.Center = _player.Position.X < (Game.Size.X / 2.0) ? new Vector2f(Game.Size.X / 2.0f,_player.Position.Y) : _player.Position;
-            v.Center = _player.Position.X > (_testTileMap.Size.X - (Game.Size.X / 2)) ? new Vector2f(_testTileMap.Size.X - (Game.Size.X / 2), _player.Position.Y) : _player.Position;
+
+            //scroll clamp
+            if (_player.Position.X < (Game.Size.X/2.0))
+                v.Center = new Vector2f(Game.Size.X / 2.0f,_player.Position.Y);
+            else if (_player.Position.X > (_testTileMap.Size.X - (Game.Size.X/2)))
+                v.Center = new Vector2f(_testTileMap.Size.X - (Game.Size.X/2), _player.Position.Y);
+            else
+                v.Center = _player.Position;
+            
+            //fixes random fucking 1px glitches in tilemap.
+            v.Center = new Vector2f((float) Math.Round(v.Center.X * 100.0f)/100.0f, (float)Math.Round(v.Center.Y * 100.0f)/100.0f);
+
             Window.SetView(v);
 
-            _posText.DisplayedString = _player.Position.ToString();
+            _posText.DisplayedString = _player.Position.ToString() + v.Center;
             _posText.Position = new Vector2f(_player.Position.X - (Game.Size.X / 2.0f), _player.Position.Y - (Game.Size.Y / 2.0f));
 
         }

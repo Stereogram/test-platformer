@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Ionic.Zip;
+using Ionic.Zlib;
 using SFML.Graphics;
 
 namespace testlol.Util
@@ -14,8 +15,8 @@ namespace testlol.Util
 
         public StuffLoader()
         {
-            _files = Directory.GetFiles(_working + @"\assets", "*", SearchOption.AllDirectories);
-            Load();
+            //_files = Directory.GetFiles(_working + @"\assets", "*", SearchOption.AllDirectories);
+            LoadZip();
         }
 
         public void Zip()
@@ -46,7 +47,27 @@ namespace testlol.Util
             }
         }
 
+        public void LoadZip()
+        {
+            using (ZipFile zip = ZipFile.Read("assets.stuff"))
+            {
 
+                foreach (var z in zip)
+                {
+                    var stream = new MemoryStream();
+                    z.Extract(stream);
+                    switch (Path.GetExtension(z.FileName))
+                    {
+                        case ".png":
+                            Game.Textures[z.FileName.Replace('/','\\')] = new Texture(stream);
+                            break;
+                        case ".ani":
+                            Game.Animations[z.FileName.Replace('/','\\')] = AnimatedSprite.ReadAnimations(stream);
+                            break;
+                    }
+                }
+            }
+        }
 
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.Window;
 using testlol.Util;
@@ -46,6 +45,11 @@ namespace testlol.World.Entity
         /// Position in tile map coordinates
         /// </summary>
         public Vector2i Location { get { return (Vector2i) Position/32; } }
+        /// <summary>
+        /// Play "s" animation
+        /// </summary>
+        /// <param name="s">name of animation</param>
+        /// <param name="b">repeat?</param>
         public void Play(string s, bool b)
         {
             Sprite.Play(s,b);

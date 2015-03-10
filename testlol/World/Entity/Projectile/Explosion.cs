@@ -1,9 +1,6 @@
-﻿
-using System;
-using System.Collections.Generic;
-using NetEXT.TimeFunctions;
+﻿using System.Collections.Generic;
 using SFML.Graphics;
-using SFML.Window;
+using SFML.System;
 using testlol.Util;
 
 namespace testlol.World.Entity.Projectile

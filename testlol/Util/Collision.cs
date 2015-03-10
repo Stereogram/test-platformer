@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NetEXT.TimeFunctions;
 using SFML.Graphics;
-using SFML.Window;
+using SFML.System;
 using testlol.World.Entity;
 using testlol.World.Level;
 

@@ -1,8 +1,6 @@
 ﻿using System;
-using NetEXT.TimeFunctions;
 using SFML.Graphics;
-using SFML.Window;
-using testlol.World;
+using SFML.System;
 
 namespace testlol.States
 {

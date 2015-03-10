@@ -1,6 +1,6 @@
-﻿using NetEXT.TimeFunctions;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using NetEXT.Input;
+using SFML.System;
 
 namespace testlol.States
 {

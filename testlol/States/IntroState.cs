@@ -1,7 +1,6 @@
 ﻿using System;
-using NetEXT.TimeFunctions;
 using SFML.Graphics;
-using SFML.Window;
+using SFML.System;
 
 namespace testlol.States
 {
@@ -29,7 +28,7 @@ namespace testlol.States
 
         public override void Update(Time dt)
         {
-            if ((_time += dt) >= Time.FromSeconds(0.5))
+            if ((_time += dt) >= Time.FromSeconds(0.5f))
             {
                 Next = StateMachine.BuildState<MenuState>(Machine, Window, true);
             }

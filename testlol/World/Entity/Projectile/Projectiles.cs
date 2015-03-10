@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NetEXT.TimeFunctions;
 using SFML.Graphics;
-using SFML.Window;
-
+using SFML.System;
 namespace testlol.World.Entity.Projectile
 {
     public class Projectiles : Drawable, IUpdatable
@@ -39,9 +37,9 @@ namespace testlol.World.Entity.Projectile
             _explosions.RemoveAll(x => !x.Enabled);
         }
 
-        public void Shoot<T>(Vector2f p) where T : class
+        public void Shoot<T>(Vector2f p, bool b) where T : class
         {
-            ProjectileList.Add((Entity)Activator.CreateInstance(typeof(T), new object[] { p }) );
+            ProjectileList.Add((Entity)Activator.CreateInstance(typeof(T), new object[] { p, b }) );
         }
 
         public void Explode(Entity a)

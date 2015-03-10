@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NetEXT.TimeFunctions;
 using SFML.Graphics;
+using SFML.System;
 
 
 namespace testlol.States

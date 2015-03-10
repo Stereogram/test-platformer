@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using NetEXT.TimeFunctions;
 using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using testlol.Util;
 

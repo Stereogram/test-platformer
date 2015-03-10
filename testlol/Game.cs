@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
-using NetEXT.TimeFunctions;
 using testlol.States;
 using testlol.Util;
 
@@ -12,7 +12,7 @@ namespace testlol
     /// </summary>
     class Game
     {
-        private readonly Time _timePerFrame = Time.FromSeconds(1.0 / 60.0);
+        private readonly Time _timePerFrame = Time.FromSeconds(1.0f / 60.0f);
         private static readonly Vector2u _size = new Vector2u(720,480);
         public static Vector2u Size { get { return _size; } }
         private readonly RenderWindow _window = new RenderWindow(new VideoMode(_size.X, _size.Y), "testlol",Styles.None); 

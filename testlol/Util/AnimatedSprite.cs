@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using NetEXT.Animation;
-using NetEXT.TimeFunctions;
 using SFML.Graphics;
-using SFML.Window;
+using SFML.System;
 using testlol.World.Entity;
 
 namespace testlol.Util
 {
     public class AnimatedSprite: IUpdatable, Drawable
     {
+        public bool Facing { get; set; }
+
         private readonly List<Animation> _animationList;
         private readonly Animator<Sprite, string> _animator;
         private readonly AnimatedObject<Sprite> _animatedObject;
@@ -30,6 +29,7 @@ namespace testlol.Util
         {
             _sprite = new Sprite(texture);
             _size = size;
+            _sprite.Origin = new Vector2f(32,32);
             if (aList == null) return;
             _animationList = aList;
             
@@ -52,7 +52,7 @@ namespace testlol.Util
                     int tv = (int) ((total / (_tSize.Y / _size.Y)) * _size.Y);
                     temp.AddFrame(1, new IntRect(tu, tv, (int)_size.X, (int)_size.Y));
                 }
-                _animator.AddAnimation(anim.Name,temp,Time.FromSeconds(1));
+                _animator.AddAnimation(anim.Name,temp,Time.FromSeconds(0.5f));
             }
         }
 
@@ -72,7 +72,7 @@ namespace testlol.Util
         {
             if(_animatedObject != null)
                 _animator.Update(dt);
-
+            _sprite.Scale = new Vector2f(Facing ? 1 : -1, 1);
         }
 
         public void WriteAnimations(string s)

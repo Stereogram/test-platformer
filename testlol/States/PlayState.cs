@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using NetEXT.Input;
-using NetEXT.TimeFunctions;
 using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using testlol.Util;
 using testlol.World.Entity;
@@ -116,7 +116,7 @@ namespace testlol.States
             Window.Draw(_testTileMap);
             Window.Draw(_player);
             Window.Draw(t);
-            Window.Draw(_posText);
+            //Window.Draw(_posText);
             if(Paused)
                 Window.Draw(_testShape);
             Window.Display();

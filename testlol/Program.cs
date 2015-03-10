@@ -1,10 +1,4 @@
-﻿using System;
-using SFML.Audio;
-using SFML.Window;
-using SFML.Graphics;
-using testlol.Util;
-
-namespace testlol
+﻿namespace testlol
 {
     class Program
     {

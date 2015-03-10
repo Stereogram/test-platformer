@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SFML.System;
 using SFML.Window;
 using testlol.Util;
 

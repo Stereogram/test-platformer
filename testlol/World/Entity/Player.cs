@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NetEXT.TimeFunctions;
 using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using testlol.Util;
 using testlol.World.Entity.Projectile;
@@ -23,8 +23,8 @@ namespace testlol.World.Entity
         {
             Projectiles = new Projectiles();
             Size = new Vector2u(32,64);
-            HitBox = new FloatRect(Position.X - 16, Position.Y, Size.X, Size.Y);
-            OffSet = new Vector2i(16,0);
+            HitBox = new FloatRect(Position.X, Position.Y, Size.X, Size.Y);
+            OffSet = new Vector2i(-16,-32);
             Position = new Vector2f(0, 0);
             Velocity = new Vector2f(250, 0);
         }
@@ -33,9 +33,9 @@ namespace testlol.World.Entity
             target.Draw(Sprite, states);
             target.Draw(Projectiles);
 #if DEBUG
-            RectangleShape test = HitBox.ToRectangleShape();
-            test.FillColor = Jumping ? new Color(255, 100, 100, 150) : new Color(255, 0, 0, 150);
-            target.Draw(test);
+            //RectangleShape test = HitBox.ToRectangleShape();
+            //test.FillColor = Jumping ? new Color(255, 100, 100, 150) : new Color(255, 0, 0, 150);
+            //target.Draw(test);
 #endif
         }
 
@@ -52,14 +52,14 @@ namespace testlol.World.Entity
             vel.Y += _gravity;
             Velocity = vel;
 
-            pos.X += Direction * Velocity.X * (float) dt.Seconds;
-            pos.Y += Velocity.Y * (float) dt.Seconds;
+            pos.X += Direction * Velocity.X * dt.AsSeconds();
+            pos.Y += Velocity.Y * dt.AsSeconds();
 
             Position = pos;
 
-            if(Position.Y >= 768-Size.Y)
+            if(Position.Y >= 768-(Size.Y/2.0f))
             {
-                Position = new Vector2f(Position.X, 768-Size.Y);
+                Position = new Vector2f(Position.X, 768-(Size.Y/2.0f));
                 Velocity = new Vector2f(Velocity.X, 0);
                 if (Jumping)
                 {
@@ -72,9 +72,9 @@ namespace testlol.World.Entity
                 Position = new Vector2f(0, Position.Y);
                 //Velocity = new Vector2f(0, Velocity.Y);
             }
-            else if(Position.X >= 1366 + Size.X*3)
+            else if(Position.X >= 1366 + Size.X)
             {
-                Position = new Vector2f(1366 + Size.X*3, Position.Y);
+                Position = new Vector2f(1366 + Size.X, Position.Y);
                 //Velocity = new Vector2f(0, Velocity.Y);
             }
             
@@ -82,6 +82,16 @@ namespace testlol.World.Entity
 
         public void Move(int dir)
         {
+            if (dir == 0)
+            {
+                //Sprite.Play("stand", true);
+                Sprite.Facing = Direction == 1;
+            }
+            else
+            {
+                //Sprite.Play("walk", true);
+                Sprite.Facing = dir == 1;
+            }
             Direction = dir;
         }
 
@@ -102,7 +112,7 @@ namespace testlol.World.Entity
             if (_shootTime >= _shootMax)
             {
                 _shootTime = Time.Zero;
-                Projectiles.Shoot<Bullet>(Position);
+                Projectiles.Shoot<Laser>(Position, Sprite.Facing);
             }
         }
 
